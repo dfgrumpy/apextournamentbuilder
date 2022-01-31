@@ -1,0 +1,30 @@
+/* Show it is fixed to the top */
+body {
+  min-height: 75rem;
+}
+
+.pricing-header {
+  max-width: 700px;
+}
+
+
+
+.icon-flipped {
+    transform: scaleX(-1);
+    -moz-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    -ms-transform: scaleX(-1);
+}
+
+.container {
+  max-width: 960px;
+}
+
+
+.toast-container {
+  z-index: 7000;
+}
+
+
+
+.note-editable { background-color: white !important; color: black !important; }

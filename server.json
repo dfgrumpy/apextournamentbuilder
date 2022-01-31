@@ -1,0 +1,7 @@
+{
+    "web":{
+        "SSL":{
+            "forceSSLRediect":"true"
+        }
+    }
+}

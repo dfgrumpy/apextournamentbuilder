@@ -1,0 +1,40 @@
+{
+    "author":"ATB",
+    "bugs":"",
+    "changelog":"",
+    "contributors":[],
+    "description":"",
+    "devDependencies":{},
+    "documentation":"",
+    "homepage":"",
+    "engines":[
+        {
+            "type":"lucee",
+            "version":">=5.3.x"
+        },
+        {
+            "type":"adobe",
+            "version":"2016.0.15+318650"
+        }
+    ],
+    "instructions":"",
+    "name":"RAS-Berry",
+    "private":true,
+    "repository":{},
+    "scripts":{
+        "postInstall":"echo \"HOSTNAME = apextournament.local\nENVIRONMENT = dev\nCFENGINE = adobe@2016\n\nHTTP_PORT = 8180\n\nSMTP_HOST = 127.0.0.1\nSMTP_PORT = 2525\" > .env",
+        "buildEnv":"echo \"HOSTNAME = apextournament.local\nENVIRONMENT = dev\nCFENGINE = adobe@2016\nHTTP_PORT = 8080\nSMTP_HOST = 127.0.0.1\nSMTP_PORT = 2500\" > .env"
+    },
+    "shortDescription":"Apex Tournament Builder",
+    "slug":"atb-djf",
+    "dependencies":{
+        "commandbox-cfconfig":">=1.0.6",
+        "commandbox-hostupdater":">=1.8.0",
+        "commandbox-dotenv":">=1.7.1",
+        "fw1":"^4.3.0"
+    },
+    "installPaths":{
+        "fw1":"framework/"
+    },
+    "version":"1.0.0"
+}

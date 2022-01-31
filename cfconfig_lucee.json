@@ -1,0 +1,188 @@
+{
+    "adminSalt":"6523F39C-5961-443F-B54FD3BA8FD75BD9",
+    "applicationListener":"mixed",
+    "applicationMode":"curr2root",
+    "applicationTimeout":"2,0,0,0",
+    "baseComponent":"/lucee/Component.cfc",
+    "clientCookies":"yes",
+    "clientManagement":"no",
+    "clientStorage":"Cookie",
+    "datasourcePreserveSingleQuotes":"false",
+    "datasources":{
+        "atb": {
+            "allowAlter": true,
+            "allowCreate": true,
+            "allowDelete": true,
+            "allowDrop": true,
+            "allowGrant": true,
+            "allowInsert": true,
+            "allowRevoke": true,
+            "allowSelect": true,
+            "allowUpdate": true,
+            "alwaysSetTimeout": "true",
+            "blob": "false",
+            "class": "com.mysql.cj.jdbc.Driver",
+            "clob": "false",
+            "connectionTimeout": "1",
+            "custom": "characterEncoding=UTF-8&serverTimezone=America%2FLos_Angeles&maxReconnects=3",
+            "database": "apextournament",
+            "dbdriver": "MySQL",
+            "dsn": "jdbc:mysql://{host}:{port}/{database}",
+            "host": "localhost",
+            "metaCacheTimeout": "60000",
+            "password": "root",
+            "port": "3306",
+            "storage": "false",
+            "username": "root",
+            "validate": "false"
+        }
+    },
+    "debuggingEnabled":"false",
+    "hspw":"f6fa260ddbeeba9210c7d910c3e36101852b0bdc1a6fc7e3e54c6d4ca6b2f30b",
+    "loggers":{
+        "application":{
+            "appender":"resource",
+            "appenderArguments":{
+                "path":"{lucee-config}/logs/application.log"
+            },
+            "layout":"classic"
+        },
+        "datasource":{
+            "appender":"resource",
+            "appenderArguments":{
+                "path":"{lucee-config}/logs/datasource.log"
+            },
+            "layout":"classic"
+        },
+        "deploy":{
+            "appender":"resource",
+            "appenderArguments":{
+                "path":"{lucee-config}/logs/deploy.log"
+            },
+            "layout":"classic",
+            "level":"info"
+        },
+        "exception":{
+            "appender":"resource",
+            "appenderArguments":{
+                "path":"{lucee-config}/logs/exception.log"
+            },
+            "layout":"classic"
+        },
+        "gateway":{
+            "appender":"resource",
+            "appenderArguments":{
+                "path":"{lucee-config}/logs/gateway.log"
+            },
+            "layout":"classic"
+        },
+        "mail":{
+            "appender":"resource",
+            "appenderArguments":{
+                "path":"{lucee-config}/logs/mail.log"
+            },
+            "layout":"classic"
+        },
+        "mapping":{
+            "appender":"resource",
+            "appenderArguments":{
+                "path":"{lucee-config}/logs/mapping.log"
+            },
+            "layout":"classic"
+        },
+        "memory":{
+            "appender":"resource",
+            "appenderArguments":{
+                "path":"{lucee-config}/logs/memory.log"
+            },
+            "layout":"classic"
+        },
+        "orm":{
+            "appender":"resource",
+            "appenderArguments":{
+                "path":"{lucee-config}/logs/orm.log"
+            },
+            "layout":"classic"
+        },
+        "remoteclient":{
+            "appender":"resource",
+            "appenderArguments":{
+                "path":"{lucee-config}/logs/remoteclient.log"
+            },
+            "layout":"classic",
+            "level":"info"
+        },
+        "requesttimeout":{
+            "appender":"resource",
+            "appenderArguments":{
+                "path":"{lucee-config}/logs/requesttimeout.log"
+            },
+            "layout":"classic"
+        },
+        "rest":{
+            "appender":"resource",
+            "appenderArguments":{
+                "path":"{lucee-config}/logs/rest.log"
+            },
+            "layout":"classic"
+        },
+        "scheduler":{
+            "appender":"resource",
+            "appenderArguments":{
+                "path":"{lucee-config}/logs/scheduler.log"
+            },
+            "layout":"classic"
+        },
+        "scope":{
+            "appender":"resource",
+            "appenderArguments":{
+                "path":"{lucee-config}/logs/scope.log"
+            },
+            "layout":"classic"
+        },
+        "search":{
+            "appender":"resource",
+            "appenderArguments":{
+                "path":"{lucee-config}/logs/search.log"
+            },
+            "layout":"classic"
+        },
+        "thread":{
+            "appender":"resource",
+            "appenderArguments":{
+                "path":"{lucee-config}/logs/thread.log"
+            },
+            "layout":"classic"
+        },
+        "trace":{
+            "appender":"resource",
+            "appenderArguments":{
+                "path":"{lucee-config}/logs/trace.log"
+            },
+            "layout":"classic"
+        }
+    },
+    "mailConnectionTimeout":"60",
+    "mailDefaultEncoding":"UTF-8",
+    "mailServers":[
+        {
+            "tls":"false",
+            "password":"",
+            "port":"25",
+            "username":"",
+            "ssl":"false",
+            "smtp":"127.0.0.1"
+        }
+    ],
+    "mailSpoolEnable":"true",
+    "mergeURLAndForm":"no",
+    "scopeCascading":"standard",
+    "searchResultsets":"yes",
+    "sessionManagement":"true",
+    "sessionTimeout":"0,0,20,0",
+    "sessionType":"j2ee",
+    "timeServer":"pool.ntp.org",
+    "UDFTypeChecking":"false",
+    "updateSiteURL":"http://release.lucee.org",
+    "whitespaceManagement":"smart"
+}
