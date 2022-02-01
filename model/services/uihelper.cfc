@@ -124,12 +124,23 @@ component accessors="true" extends="model.base.baseget"    {
 		if (arguments.typeNum == 1) {
 			return 'Invitational';
 		} else if (arguments.typeNum == 2) {
-			return 'Self Registration'
+			return 'Open'
 		}
 		return 'Not Defined';
 	}
 		
+	public string function playerCountToColor(plcount, tsize){
+		
+		if (plcount eq tsize) {
+			return 'success';
+		} else if (plcount lt tsize && plcount neq 0) {
+			return 'warning';
+		} else if (plcount eq 0) {
+			return 'danger';
+		}
+		return 'primary';
 
+	}
 
 
 }

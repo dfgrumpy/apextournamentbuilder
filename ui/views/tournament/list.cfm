@@ -30,14 +30,17 @@
                 <a href="#buildurl('tournament.detail/tournament/#item.getid()#')#" class="btn btn-sm btn-secondary"  data-bs-toggle="tooltip" data-bs-placement="top" title="View tournament detals"data-bs-toggle="tooltip" data-bs-placement="top" title="Manage players in tournament">                  
                   <i class="bi bi-info-lg"></i>
                 </a>
+                <a href="#buildurl('tournament.manageteams?tournament/#item.getid()#')#" role="button" class="btn btn-sm btn-primary"  data-bs-toggle="tooltip" data-bs-placement="top" title="Manage Teams">
+                  <i class="bi bi-people-fill"></i>
+                </a>
                 <a href="#buildurl('tournament.manageplayers?tournament/#item.getid()#')#" role="button" class="btn btn-sm btn-warning"  data-bs-toggle="tooltip" data-bs-placement="top" title="Manage players in tournament">
-                  <i class="bi bi-people"></i>
+                  <i class="bi bi-person-fill"></i>
                 </a>
                 <button type="button"  data-tournamentid="#item.getid()#" class="btn btn-sm btn-info tournamentEditeBtn"  data-bs-toggle="tooltip" data-bs-placement="top" title="Edit tournament information">
-                    <i class="bi bi-pencil"></i>
+                    <i class="bi bi-pencil-fill"></i>
                 </button>
                 <button type="button"  data-tournamentid="#item.getid()#" class="btn btn-sm btn-danger tournamentDeleteBtn"  data-bs-toggle="tooltip" data-bs-placement="top" title="Delete tournament">
-                    <i class="bi bi-trash"></i>
+                    <i class="bi bi-trash-fill"></i>
                 </button>
             </td>
             </tr>

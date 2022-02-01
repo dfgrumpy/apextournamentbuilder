@@ -5,19 +5,22 @@
             <div class="row">
                 <div class="col text-start">                    
                     <h4 class="mb-0">
-                    #rc.tournament.gettournamentname()#                    
+                    <i class="bi bi-person-badge fs-5 text-#(rc.tournament.getregistrationtype() eq 1)? 'success':'warning'#"  data-bs-toggle="tooltip" data-bs-placement="top" title="#rc.uihelper.regTypeToString(rc.tournament.getregistrationtype())#"></i> #rc.tournament.gettournamentname()#                    
                     </h4>
                 </div>
                 <div class="col text-end">
 
+                <a href="#buildurl('tournament.manageteams?tournament/#rc.tournament.getid()#')#" role="button" class="btn btn-sm btn-primary"  data-bs-toggle="tooltip" data-bs-placement="top" title="Manage Teams">
+                  <i class="bi bi-people-fill"></i>
+                </a>
                 <a href="#buildurl('tournament.manageplayers?tournament/#rc.tournament.getid()#')#" role="button" class="btn btn-sm btn-warning"  data-bs-toggle="tooltip" data-bs-placement="top" title="Manage players in tournament">
-                  <i class="bi bi-people"></i>
+                  <i class="bi bi-person-fill"></i>
                 </a>
                 <button type="button"  data-tournamentid="#rc.tournament.getid()#" class="btn btn-sm btn-info tournamentEditeBtn"  data-bs-toggle="tooltip" data-bs-placement="top" title="Edit tournament information">
-                    <i class="bi bi-pencil"></i>
+                    <i class="bi bi-pencil-fill"></i>
                 </button>
                 <button type="button"  data-relocate="true" data-tournamentid="#rc.tournament.getid()#" class="btn btn-sm btn-danger tournamentDeleteBtn"  data-bs-toggle="tooltip" data-bs-placement="top" title="Delete tournament">
-                    <i class="bi bi-trash"></i>
+                    <i class="bi bi-trash-fill"></i>
                 </button>
 
                 </div>

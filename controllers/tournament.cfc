@@ -7,6 +7,7 @@ component accessors="true" {
 	property tournamentService;
 	property apexaipService;
 	property teamsService;
+	property playerService;
 	
 	public any function init( fw ) {
 		variables.fw = fw;
@@ -122,6 +123,11 @@ component accessors="true" {
 		rc.tournament = getTournamentService().getTournamentByKey(rc.tournament);
 
 		rc.teamcounts = getteamsservice().getTeamPlayerCountsForTournament(rc.tournament.getid());
+		rc.teamcountsEmpty = getteamsservice().getEmptyTeamsForTourney(rc.teamcounts);
+
+		getSessionService().settournamentmanageid(rc.tournament.getid());
+
+		rc.players = getPlayerService().getPlayerByTeam(5,4);
 
 	}
 

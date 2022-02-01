@@ -163,6 +163,17 @@ eventsNS = {
 			});
 
 		},
+		manageteams: function () {
+
+			$('.teamDetailList button').on('click', function (e) {
+				$('.teamDetailList button.list-group-item-secondary').removeClass('list-group-item-secondary');
+				$(this).addClass('list-group-item-secondary');
+				$("#teamContent").load("/team/members/teamid/" + $(this).data('teamid'));
+			});
+
+		},
+
+		
 
 		manageplayers: function () {
 			$('.playerdetailBtn').on('click', function (e) {

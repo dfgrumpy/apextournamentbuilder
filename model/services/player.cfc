@@ -15,6 +15,11 @@ component accessors="true" hint="for player items" extends="model.base.baseget" 
 		return entityload("player", {gamername = arguments.playername, tournament= entityLoadByPK('tournament', arguments.tournamentid)});
 	}
 
+	public any function getPlayerByTeam(required numeric tournamentid, required numeric teamID){
+
+		return ormExecuteQuery('from player where team = #arguments.teamID# and tournament = #arguments.tournamentid# ');
+	}
+
 
 	public any function checkForPlayerByName(required string playername, required string Originname, required numeric tournamentid){
 		var orig = '';

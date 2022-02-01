@@ -25,4 +25,19 @@ component accessors="true" hint="for tournament items" extends="model.base.baseg
 	}
 
 
+
+
+
+	public any function getEmptyTeamsForTourney(tournamentdata){
+
+		var data =  queryexecute('select * from arguments.tournamentdata where playercount = 0', {}, { dbtype="query" } );
+	
+		return data;
+
+	}
+
+
+
+
+
 }

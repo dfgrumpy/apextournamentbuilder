@@ -18,7 +18,7 @@
         <div class="col">
           <div class="card mb-4 rounded-3 shadow-sm border-success">
             <div class="card-header py-3">
-              <h4 class="my-0 fw-normal">Self Sign-up</h4>
+              <h4 class="my-0 fw-normal">Open Tournament</h4>
             </div>
             <div class="card-body">
               <ul class="list-unstyled mt-3 mb-4">
@@ -28,14 +28,14 @@
                 <li>Notifications</li>
                 <li>Stats linking</li>
               </ul>
-              <a role="button" class="w-100 btn btn-lg btn-primary disabled" href="<cfoutput>#buildurl('tournament.create?step=start&type=self')#</cfoutput>" disabled>Coming Soon</a>
+              <a role="button" class="w-100 btn btn-lg btn-primary disabled" href="<cfoutput>#buildurl('tournament.create?step=start&type=open')#</cfoutput>" disabled>Coming Soon</a>
             </div>
           </div>
         </div>
         <div class="col">
           <div class="card mb-4 rounded-3 shadow-sm border-warning">
             <div class="card-header py-3">
-              <h4 class="my-0 fw-normal">Invitational</h4>
+              <h4 class="my-0 fw-normal">Invitational Tournament</h4>
             </div>
             <div class="card-body">
               <ul class="list-unstyled mt-3 mb-4">
