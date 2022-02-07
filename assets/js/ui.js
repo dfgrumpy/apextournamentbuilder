@@ -53,6 +53,25 @@ uiNS = {
     },
 
 
+    updateTeamBorder: function (playercount, item) {
+
+        maxcount = $('#tournamentInfo').data('teamsize');
+
+        $(item).removeClass (function (index, className) {
+            return (className.match (/(^|\s)border-\S+/g) || []).join(' ');
+        });
+
+        if (playercount == maxcount) {
+            $(item).addClass('border-success');
+        } else if (playercount == 0){
+            $(item).addClass('border-danger');
+        } else {
+            $(item).addClass('border-warning');            
+        }
+
+    }
+
+
 };
 
 

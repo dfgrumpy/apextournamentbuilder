@@ -29,7 +29,6 @@ component accessors="true" {
 		rc.players = getPlayerService().getPlayerByTeam(getsessionservice().gettournamentmanageid(), rc.teamid);
 		
 	}
-	
 
 
 

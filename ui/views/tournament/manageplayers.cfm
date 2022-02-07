@@ -97,7 +97,11 @@
                     <td>#item.getgamername()#</td>
                     <td class="text-center" data-order="#rc.uihelper.apexRankToSort(item.getRank())#">
                         <cfset rank = rc.uihelper.apexRankToIcon(item.getRank())>
-                        <img src="/assets/images/apexranks/#rank#.png" width="30px" title="#item.getrank()#">
+                        <cfif rank.len()>
+                            <img src="/assets/images/apexranks/#rank#.png" width="30px" title="#item.getrank()#">
+                        <cfelse>
+                            <i class="bi bi-shield-slash-fill" style="font-size: 1.3rem; color: grey;" title="Unknown Rank"></i>
+                        </cfif>
                     </td>
                     <td>#item.getLevel()#</td>
                     <td>#item.getPlatform()#</td>

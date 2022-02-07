@@ -27,6 +27,16 @@ component accessors="true" hint="for tournament items" extends="model.base.baseg
 	}
 
 
+	public any function getTournamentPlayersNoTeam (required numeric tournamentid){
+
+		return ormExecuteQuery('from player where tournament = #arguments.tournamentid# and team is null');
+
+	}
+
+
+
+
+
 	public any function saveNewTournament(required struct data) {
         var tdata = arguments.data;
 		var owner = getSessionService().getloginuser();

@@ -21,6 +21,15 @@ component accessors="true" hint="for player items" extends="model.base.baseget" 
 	}
 
 
+	public any function isPlayerinTournament(playerid, tournamentid){
+
+		var data =  queryexecute('select 1 from player where id = :playerid and tournamentid = :tourney', {playerid: arguments.playerid, tourney : arguments.tournamentid});
+	
+		return data.recordcount;
+
+	}
+
+
 	public any function checkForPlayerByName(required string playername, required string Originname, required numeric tournamentid){
 		var orig = '';
 		if (arguments.Originname.len()) {

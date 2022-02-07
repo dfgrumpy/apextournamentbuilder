@@ -135,10 +135,23 @@ component accessors="true"  extends="framework.one"{
 			}
 		}
 
-		if (getsecurityService().isSecureSection(getSectionanditem()) && ! getSessionService().isUserLoggedIn()){
+		var isSecureLocation = getsecurityService().isSecureSection(getSectionanditem());
+
+		if (isSecureLocation && ! getSessionService().isUserLoggedIn()){
 			if (getsecurityService().isRedirectSection(cgi.PATH_INFO)) {			
 				getSessionService().setEntryURL(cgi.PATH_INFO);
 			}
+
+			
+			if (getsecurityService().isAjaxRequest()){
+				// kill the ajax request and stop.  Global ajax error handler will handle the rest
+				cfheader(name="custom-error-message", value="Invalid action detected");
+				getpagecontext().getresponse().setstatus( 403 );				
+				abort; // prevent anything else from happening.
+			}
+
+			
+
 			redirect( action = 'main.default' );
 		}
 

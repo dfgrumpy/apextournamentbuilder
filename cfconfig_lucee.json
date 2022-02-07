@@ -30,7 +30,7 @@
             "dsn": "jdbc:mysql://{host}:{port}/{database}",
             "host": "localhost",
             "metaCacheTimeout": "60000",
-            "password": "root",
+            "password": "r00tr00t",
             "port": "3306",
             "storage": "false",
             "username": "root",

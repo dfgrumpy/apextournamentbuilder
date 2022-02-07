@@ -83,6 +83,9 @@
 	<script src="//cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
 	<script src="//cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
 	<script src="//gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+
+	<script src="/assets/js/modules/html5sortable.min.js"></script>
+	
 	<!--- try and load any section specific JS file --->
 	<cfif fileExists('#variables.webrootPath#/assets/js/section/#getSection()#.js')>
 		<script src="/assets/js/section/<cfoutput>#getSection()#.js#application.cachebuster#</cfoutput>"></script>
@@ -94,6 +97,7 @@
 		<script src="/assets/js/ajax.js#application.cachebuster#"></script>
 		<script src="/assets/js/util.js#application.cachebuster#"></script>
 		<script src="/assets/js/events.js#application.cachebuster#"></script>
+		<script src="/assets/js/tournament.js#application.cachebuster#"></script>
 		
 	</cfoutput>
 

@@ -3,6 +3,7 @@ component accessors="true" extends="base"       {
 
 	property tournamentService;
 	property playerService;
+	property teamsService;
 
 	public any function before( rc ) {
 		super.before(rc);
@@ -30,8 +31,12 @@ component accessors="true" extends="base"       {
 		} else if (rc.content is 'tournamentedit') {
 			getsessionservice().setedittournamentid(rc.tournamentid);
 			rc.tournament = getTournamentService().getTournamentByKey(rc.tournamentid);	
-			rc.tournamenttypes = getTournamentService().getTournamentTypes();	
+			rc.tournamenttypes = getTournamentService().getTournamentTypes();			
+		} else if (rc.content is 'teamnew') {
+			getsessionservice().setedittournamentid(rc.tournamentid);
 		} 
+
+
 
 		// modal ui is handed via onmissingview in app cfc
 		structDelete(rc, "returnType");
@@ -105,10 +110,24 @@ component accessors="true" extends="base"       {
 
 			getTournamentService().editTournament(tournamentData);
 			rc.RETURNDATA = true;
+		} else if (structKeyExists(rc, 'item') && rc.item == 'teamnew') {
+			saved = getTeamsService().createTeam(rc.teamname, getsessionservice().gettournamentmanageid());
+			rc.RETURNDATA = saved;
+		} else if (structKeyExists(rc, 'item') && rc.item == 'deleteTeam'){
+			saved = getTeamsService().deleteTeam(rc.teamid, getsessionservice().gettournamentmanageid());
+			rc.RETURNDATA = saved;
+		} else if (structKeyExists(rc, 'item') && rc.item == 'playerteamupdate'){
+			//
+			getteamsService().updateTeamPlayer(rc.playerid, rc.teamid, rc.type, getsessionservice().gettournamentmanageid());
+
+			saved = true;
+			rc.RETURNDATA = saved;
 		}
+		
+
+		
+
 	}
-
-
 	public any function trackerload( fw ) {
 		getplayerService().getTrackerData(rc.playerid);
 		rc.RETURNDATA = true;

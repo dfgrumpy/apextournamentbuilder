@@ -62,7 +62,6 @@ component accessors="true" extends="model.base.baseget"    {
 
 
 	public string function apexRankToIcon(rank) {
-
 		var passrank = replacenocase(trim(REReplaceNoCase(arguments.rank,'([^0-9]+).*','\1','ALL')), " ", "_");
 		var ranks = ['Bronze','Silver','Gold','Platinum','Diamond','Master','Apex_Predator'];
 		var selRank = listfirst(passrank, ' ');
@@ -98,7 +97,7 @@ component accessors="true" extends="model.base.baseget"    {
 		var thisPlayer = arguments.player;
 		if (!thisPlayer.getPlatform().len()) {
 			return false;
-		} else if (thisPlayer.getPlatform() == "pc" && !thisPlayer.getoriginname().len()) {
+		} else if (thisPlayer.getPlatform() == "pc" && !len(thisPlayer.getoriginname())) {
 			return false;			
 		}
 		return true;

@@ -64,11 +64,30 @@ component accessors="true" hint="for security items" extends="model.base.baseget
 	
 	
 	public string function isSecureSection(section) hint="validates section to see if it is a secure area"  {
-		
-		var secureSections = getConfigService().getsecureSections();
-		
-		return listFindNoCase(local.secureSections, arguments.section) ? true : false;
+		var secureSections = getConfigService().getsecureSections().listtoarray();
+		var baseLocation = arguments.section;
+		var baseItem = arguments.section.listlast('.');
+		var fullLocation = cgi.path_info;
+		var secureLocation = 0;
 
+		var isSecure = arrayfind(secureSections,function(item) {
+
+			if (item == baseLocation) { // specific location matches 
+				secureLocation = 1;
+				return 1;
+			}
+
+			if (item.listfind(baseitem, '.') && item.listfind('*', '.')) {
+				if (fulllocation contains item.listlast('.')){
+					secureLocation = baseitem == 'modal' ? 2:1; // return of 2 means secure modal window					
+					return 1;
+				}
+			}
+			return 0;
+		});
+
+		return secureLocation;
+	
 	}
 	
 		
@@ -81,6 +100,13 @@ component accessors="true" hint="for security items" extends="model.base.baseget
 			}
 		}
 		return false;
+	}
+
+	public string function isAjaxRequest(){
+
+		var headers = getHttpRequestData().headers;
+		return structKeyExists(headers, "X-Requested-With") and (headers["X-Requested-With"] eq "XMLHttpRequest") ;
+
 	}
 
 

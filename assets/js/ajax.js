@@ -129,9 +129,9 @@ siteAjax = {
 		siteAjax.saveFormData(package);
 	},
 
-	saveNewPlayerResult: function (data) {
-		console.log(data);
-		
+
+
+	saveNewPlayerResult: function (data) {		
 		if (typeof data == "boolean" && data) {
 			uiNS.setModalHide();
 			uiNS.displayNotification('success', 'Player has been created. Refreshing... ');
@@ -139,6 +139,25 @@ siteAjax = {
 		} else {
 			uiNS.displayNotification('danger', data.detail);
 		}
+	},
+
+	saveNewTeam: function (data) {
+		formData = JSON.stringify($('#modalForm').serializeArray());
+		package = { modal: true, url: '/ajax/savedata/item/teamnew', payload: formData, handler: 'siteAjax.saveNewTeamResult' };
+		siteAjax.saveFormData(package);
+	},
+
+	
+	saveNewTeamResult: function (data){
+
+		if (data == 1) {
+			uiNS.setModalHide();
+			uiNS.displayNotification('success', 'Team has been created. Refreshing... ');
+			setTimeout(function () { location.reload(true); }, 1000);
+		} else {
+			uiNS.displayNotification('danger', 'Error occurred creating team.  Please make sure the team name is unique.');
+		}
+
 	},
 
 	loadPlayerTrackerData: function (playerid, reload = false) {
@@ -196,7 +215,41 @@ siteAjax = {
 
 	},
 
-	
+	deleteTeam: function (teamid, reload = false, teamrow) {
+		var url = siteAjax.getBaseURL() + '/ajax/savedata/item/deleteteam/teamid/' + teamid;
+		var addl = '';
+		$.ajax({
+			type: "get",
+			url: url
+		}).done(function (result) {
+			if (result == 1) {
+				uiNS.displayNotification('success', 'Team has been deleted.');	
+				$(teamrow).remove();	
+				$('#teamContent').html('');	
+			} else {
+				uiNS.displayNotification('danger', 'There was an error deleting the team.');					
+			}
+		}).fail(function () { 
+			uiNS.displayNotification('danger', 'There was an error deleting the team.');			
+		});
+
+	},
+
+
+	savePlayerTeamUpdate: function (payload) {
+		var url = siteAjax.getBaseURL() + '/ajax/savedata/item/playerteamupdate/'
+		
+		$.ajax({
+	        type: "POST",
+	        url: url,
+	        data: payload
+	    }).done(function(result) {
+			
+	    }).fail(function() {
+		});	
+
+
+	},
 
 
 };

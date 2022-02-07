@@ -63,6 +63,8 @@ eventsNS = {
 					handler = 'siteAjax.saveNewPlayer';
 				} else if ($form == 'tournamentedit') {
 					handler = 'siteAjax.saveTournamentEdit';
+				} else if ($form == 'teamnew') {
+					handler = 'siteAjax.saveNewTeam';
 				} else {
 					console.log('No handler for :  ' + $form);
 				}
@@ -127,7 +129,18 @@ eventsNS = {
 
 		});
 
+		$.ajaxSetup({
+			error: function (x, status, error) {
+				if (x.status == 403) {
+					msg = x.getResponseHeader("custom-error-message") || 'An unknown error has occurred.' ;
+					uiNS.displayNotification('danger', msg);
+					setTimeout(function () { window.location.href ="/"; }, 2000);					
+				}
+			}
+		});
 
+
+		
 	},
 
 	main :{
@@ -151,7 +164,6 @@ eventsNS = {
 		},
 
 		detail: function () {			
-
 			$('.tournamentEditeBtn').on('click', function (e) {
 				siteAjax.loadModalContent('tournamentedit/tournamentid/' + $(this).data('tournamentid'), 'Tournament Edit : ' + $(this).closest('div .row').children('div .text-start').text(), 'large');
 			});
@@ -168,9 +180,50 @@ eventsNS = {
 			$('.teamDetailList button').on('click', function (e) {
 				$('.teamDetailList button.list-group-item-secondary').removeClass('list-group-item-secondary');
 				$(this).addClass('list-group-item-secondary');
-				$("#teamContent").load("/team/members/teamid/" + $(this).data('teamid'));
+
+				$.get("/team/members/teamid/" + $(this).data('teamid'), function( data ) {
+					$('#teamContent').html( data );
+					$('#teamDeleteBtn').removeClass('d-none');
+				});
+
+
 			});
 
+			$('.teamAddBtn').on('click', function (e) {
+				siteAjax.loadModalContent('teamnew/tournamentid/' + $(this).data('tournamentid'), 'Add New Team');
+			});
+
+			
+			$('#teamDeleteBtn').on('click', function (e) {
+				
+				thisTeam = $('.list-group-item-secondary').data('teamid');
+				var srcField = $('.list-group-item-secondary');
+		
+				bootbox.confirm({
+					message: "Are you sure you wish to delete this team?<br><br>This will only delete the team.  Any players assigned will need to be reassigned to another team",
+					closeButton: false,
+					buttons: {
+						cancel: {
+							label: 'No',
+							className: 'btn btn-danger'
+						},
+						confirm: {
+							label: 'Yes',
+							className: 'btn btn-success'
+						}
+					},
+					callback: function (result) {
+						if (result) {
+							siteAjax.deleteTeam(thisTeam, false, $(srcField));
+						}
+					}
+				});
+
+
+			});
+
+			// load first item on team list
+			$('.teamDetailListBtn')[0].click();
 		},
 
 		
@@ -216,6 +269,7 @@ eventsNS = {
 
 			$('#sortableTable').DataTable(
 				{
+					"scrollY": "450px",
 					"searching": false,
 					"lengthChange": false,
 					"pageLength": 10,
@@ -227,6 +281,54 @@ eventsNS = {
 				}
 			);
 
+
+		},
+		teambuilder : function(){
+
+
+			$('.teamAddBtn').on('click', function (e) {
+				siteAjax.loadModalContent('teamnew/tournamentid/' + $(this).data('tournamentid'), 'Add New Team');
+			});
+
+
+			sortable('.list-group-sortable-source', {
+				placeholderClass: 'border-danger',
+				placeholder: '<div>&nbsp;</div>',
+				acceptFrom: '.list-group-sortable-teams',
+				forcePlaceholderSize: true,
+				handle: 'i'
+			});
+			
+			sortable('.list-group-sortable-teams', {
+				placeholderClass: 'border-danger',
+				placeholder: '<div>&nbsp;</div>',
+				acceptFrom: '.list-group-sortable-source, .list-group-sortable-teams',
+				forcePlaceholderSize: true,
+				handle: 'i',
+				maxItems: $('#tournamentInfo').data('teamsize')
+			});
+
+			sortable('.list-group-sortable-source')[0].addEventListener('sortupdate', function(e) {
+				tourneyNS.processPlayerTeamUpdate($(e.detail.item).data('playerid'), 0, 0);
+				// removed from team update source
+				teamTotal = $(e.detail.origin.container).children('li').length;
+				item = $(e.detail.origin.container).closest('div .card');
+				uiNS.updateTeamBorder(teamTotal, item);
+			});
+
+			sortTeams = document.querySelectorAll('.list-group-sortable-teams')
+
+			for (let i = 0; i < sortTeams.length; i++) {
+				sortTeams[i].addEventListener('sortupdate', function(e) {
+					tourneyNS.processPlayerTeamUpdate($(e.detail.item).data('playerid'), $(e.detail.item).closest('ul').data('teamid'), 1);
+					
+					// add to team.. update target
+					teamTotal = $(e.detail.item).closest('ul').children('li').length;
+					item = $(e.detail.item).closest('div .card');
+					uiNS.updateTeamBorder(teamTotal, item);
+
+				});
+			}
 
 		}
 	},

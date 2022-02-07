@@ -2,7 +2,7 @@
 
 
 
-    <cfoutput>
+<cfoutput>
 <div class="container py-3">
     <div class="card text-white bg-primary mb-3">
         <div class="card-header">
@@ -71,10 +71,25 @@
         <div class="card text-white bg-primary mb-3">
             <div class="card-header">
                 <div class="row">
-                    <div class="col text-start">                    
+                    <div class="col-3 text-start">                    
                         <h5 class="mb-0">
                             Tournament Teams                 
                         </h5>
+                    </div>
+                    <div class="col  text-end">
+                        <button type="button" id="teamDeleteBtn" class="btn btn-sm btn-danger d-none"  data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Team">
+                            <i class="bi bi-trash"></i> Delete Team
+                        </button>
+                        <a href="#buildurl('tournament.teambuilder?tournament/#rc.tournament.getid()#')#" role="button" class="btn btn-sm btn-primary"  data-bs-toggle="tooltip" data-bs-placement="top" title="Manage players in tournament">
+                            <i class="bi bi-people-fill"></i> Team Builder
+                        </a>
+                        <button type="button" class="btn btn-sm btn-info teamAddBtn" data-tournamentid="<cfoutput>#rc.tournament.getid()#</cfoutput>"  data-bs-toggle="tooltip" data-bs-placement="top" title="Add player">
+                            <i class="bi bi-people-fill"></i> Add Team
+                        </button>
+                        <a href="#buildurl('tournament.manageplayers?tournament/#rc.tournament.getid()#')#" role="button" class="btn btn-sm btn-warning"  data-bs-toggle="tooltip" data-bs-placement="top" title="Manage players in tournament">
+                            <i class="bi bi-person-fill"></i> Manage Players
+                        </a>
+
                     </div>
                 </div>
             </div>

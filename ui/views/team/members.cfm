@@ -7,22 +7,26 @@
                         <cfset rank = rc.uihelper.apexRankToIcon(thisPlayer.getRank())>
                          <div style="height: 115px; max-height: 115px;">
                             <p style="height: 75px;">
-                            <img src="/assets/images/apexranks/#rank#.png"  title="#thisPlayer.getrank()#" style="width: 75px;">
+                                <cfif rank.len()>
+                                    <img src="/assets/images/apexranks/#rank#.png"  title="#thisPlayer.getrank()#" style="width: 75px;">
+                                <cfelse>
+                                    <i class="bi bi-shield-slash-fill" style="font-size: 4rem; color: grey;"></i>
+                                </cfif>
                             </p>
                             #thisplayer.getgamername()#
                         </div>
                         <hr>
                         <dl class="row">
                             <dt class="text-warning">Platform</dt>
-                            <dd >#thisplayer.getPlatform()#</dd>
+                            <dd >#thisplayer.getPlatform().len() ? thisplayer.getPlatform() : 'Unknown'#</dd>
                             <dt class="text-warning">Level</dt>
-                            <dd >#thisplayer.getLevel()#</dd>
+                            <dd >#thisplayer.getPlatform() neq "" ? thisplayer.getPlatform() : 'Unknown'#</dd>
                             <dt class="text-warning">Kills</dt>
                             <dd >#NumberFormat(thisplayer.getKills())#</dd>
                             <dt class="text-warning">Twitter</dt>
-                            <dd >#(thisplayer.gettwitter().len()) ? thisplayer.gettwitter() : 'N/A'#</dd>
+                            <dd >#(thisplayer.gettwitter() neq "") ? thisplayer.gettwitter() : 'N/A'#</dd>
                             <dt class="text-warning">Twitch</dt>
-                            <dd >#(thisplayer.gettwitch().len()) ? thisplayer.gettwitch() : 'N/A'#</dd>
+                            <dd >#(thisplayer.gettwitch() neq "") ? thisplayer.gettwitch() : 'N/A'#</dd>
                             <dt class="text-warning">Streaming</dt>
                             <dd >#YesNoFormat(thisplayer.getStreaming())#</dd>
                         </dl>

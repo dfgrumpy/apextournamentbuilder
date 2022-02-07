@@ -113,6 +113,19 @@ component accessors="true" {
 
 	}
 
+	public void function teambuilder( rc ) {
+
+		// can user manage this tournament?
+		if (! getSecurityService().canUserManageTournament(rc.tournament)){
+			variables.fw.redirect('main');
+		}
+
+		getSessionService().settournamentmanageid(rc.tournament);
+		rc.tournament = getTournamentService().getTournamentByKey(rc.tournament);
+		rc.noTeamPlayers = getTournamentService().getTournamentPlayersNoTeam(rc.tournament.getid());
+
+
+	}
 	public void function manageteams( rc ) {
 
 		// can user manage this tournament?

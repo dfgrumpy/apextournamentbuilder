@@ -13,6 +13,8 @@ component persistent="true" object="player" extends="base" table="player" {
 	property name="rank" ormtype="string";
 	property name="level" ormtype="integer";
 	property name="kills" ormtype="float";
+	property name="invitekey" ormtype="string";
+	
 
 	property name="tournament" fieldtype="many-to-one" cfc="tournament";  
 
