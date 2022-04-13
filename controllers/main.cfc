@@ -7,6 +7,7 @@ component accessors="true" {
 	property userService;
 	property utilsService;
 	property configService;
+	property emailService;
 	property errorHandlerService;
 	
 	public any function init( fw ) {
@@ -14,6 +15,19 @@ component accessors="true" {
 		return this;
 	}
 	
+
+	public void function mailtest( rc ) {
+
+		newuser = getuserservice().getUser(9);
+		getEmailService().sendVerification(newuser);
+
+		abort;
+
+	}
+
+	
+
+
 	public void function default( rc ) {
 		
 		if (rc.keyExists('showConfig') && rc.showConfig == 'crafter') {
