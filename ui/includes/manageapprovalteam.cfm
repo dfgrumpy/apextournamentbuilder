@@ -33,7 +33,7 @@
         </div>
     </div>
     <div class="col">
-        <div class="card rounded-3 shadow-sm text-white border-#rc.uihelper.filledTeamsToClassColor(rc.tournament.filledTeamsForTournament())#">
+        <div class="card rounded-3 shadow-sm text-white border-#rc.uihelper.filledTeamsToClassColor(rc.tournament.filledTeamsForTournament(), rc.tournament.getteamsize())#">
             <div class="card-body">
                 <h1 class="card-title pricing-card-title">#rc.tournament.filledTeamsForTournament()#</h1>
                 <ul class="list-unstyled mt-3 mb-4">

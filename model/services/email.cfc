@@ -96,6 +96,8 @@ component accessors="true" hint="for email items" extends="model.base.baseget"  
 			body = arguments.emailBody,
 			server = getConfigService().getMailServer(),
 			port = getconfigService().getMailPort(),
+			username = getconfigService().getmailuser(),
+			password = getconfigService().getmailpass(),
 			type = 'html',
 			usetls = true
 			);
