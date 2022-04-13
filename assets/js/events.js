@@ -32,15 +32,18 @@ eventsNS = {
 
 		// reset modal content when hidden
 		$('#baseModal').on('hidden.bs.modal', function (e) {
-		  uiNS.setModalContent('', '');
-		  /// remove click hander or next modal show will attach a new click hander
-		  $('#myModalSave').off('click');
-		
-		  /// reset multi click check
-		  saveClicked = false;
+			uiNS.setModalContent('', '');
+			/// remove click hander or next modal show will attach a new click hander
+			$('#myModalSave').off('click');
 
-		  // show save button incase it was hidden
-		  $("#myModalSave").show();
+			/// reset multi click check
+			saveClicked = false;
+
+			// show save button incase it was hidden
+			$("#myModalSave").show();
+
+			// reset button bar
+			uiNS.showModalCloseFooter(0);
 		  
 		});
 
@@ -65,6 +68,13 @@ eventsNS = {
 					handler = 'siteAjax.saveTournamentEdit';
 				} else if ($form == 'teamnew') {
 					handler = 'siteAjax.saveNewTeam';
+				} else if ($form == 'teamfill') {
+					handler = 'tourneyNS.processTeamFill';
+				} else if ($form == 'teamedit') {
+					handler = 'tourneyNS.processTeamEdit';
+				} else if ($form == 'forgotLogin'){
+					handler = 'mainNS.forgotLogin';
+					$('#myModalSave > span').text('Continue');					
 				} else {
 					console.log('No handler for :  ' + $form);
 				}
@@ -90,10 +100,11 @@ eventsNS = {
 							} else {
 								return;
 							}
+							console.log(handler);
 							util.executeFunctionByName(handler, window);
 						}
 						setTimeout(function () {
-							// wait 3 seconds and turn the milticheck off
+							// wait 3 seconds and turn the multiclick off
 							saveClicked = false;
 						}, 3000)
 					});
@@ -110,7 +121,10 @@ eventsNS = {
 
 		})
 
-		
+		popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+			var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+			return new bootstrap.Popover(popoverTriggerEl)
+		})
 
 		// activate any tooltips in modal
 		$('[data-bs-toggle="tooltip"]').tooltip({
@@ -140,12 +154,18 @@ eventsNS = {
 		});
 
 
-		
+		$('.copyToClipboardBtn').on('click', function (e) {
+			var copyText = $(this).data('clipboard');
+			navigator.clipboard.writeText(copyText);
+		})
 	},
 
 	main :{
-		default: function(){
+		login: function(){
 			
+			$('#forgotLoginBtn').on('click', function(e){
+				siteAjax.loadModalContent('forgotlogin', 'Forgot Password');
+			});
 		}
 
 	},
@@ -153,13 +173,53 @@ eventsNS = {
 	
 	alerts: {
 		default: function () {
-			
 		}
 	},
 
 
 	tournament: {
+		register: function(){
+
+			$('#rulesView').on('click', function(){
+				siteAjax.loadModalContent('tournamentrules/tournamentid/' + $(this).data('tournamentid'), 'Tournament Rules', 'large');
+				uiNS.showModalCloseFooter(1);
+			});
+		},
 		create: function () {
+			
+			$('#eventdate').on('change', function(e) {
+				util.setEventDates();
+			});
+
+			$('#regenabled').on('change', function(e) {
+
+				if ($(this).prop("checked")) { // reg on
+					if ($('#latereg').prop("checked")) {
+						$('#cutoff').prop('required',false);
+					} else {
+						$('#cutoff').prop('required',true);
+					}
+					$('#regstart').prop('required',true);
+					$('#regend').prop('required',true);
+				} else { // reg off
+
+					// turn off req dates
+					$('#regstart').prop('required',false);
+					$('#regend').prop('required',false);
+					$('#cutoff').prop('required',false);
+				}
+
+			});
+			$('#latereg').on('change', function(e) {
+				if ($(this).prop("checked")) {
+					$('#cutoff').prop('required',true);			
+				} else {
+					$('#cutoff').prop('required',false);								
+				}
+
+			});
+
+
 
 		},
 
@@ -168,6 +228,17 @@ eventsNS = {
 				siteAjax.loadModalContent('tournamentedit/tournamentid/' + $(this).data('tournamentid'), 'Tournament Edit : ' + $(this).closest('div .row').children('div .text-start').text(), 'large');
 			});
 		},
+
+
+		view: function () {		
+			$('.teamDetailBtn').on('click', function (e) {
+				siteAjax.loadModalContent('teammembers/teamid/' + $(this).data('teamid'), 'Team Makeup : ' + $(this).text());
+				uiNS.showModalCloseFooter(1);
+			});
+		},	
+
+
+
 		mytournaments: function () {
 			
 			$('.tournamentEditeBtn').on('click', function (e) {
@@ -175,7 +246,7 @@ eventsNS = {
 			});
 
 		},
-		manageteams: function () {
+		teamsoverview: function () {
 
 			$('.teamDetailList button').on('click', function (e) {
 				$('.teamDetailList button.list-group-item-secondary').removeClass('list-group-item-secondary');
@@ -183,7 +254,7 @@ eventsNS = {
 
 				$.get("/team/members/teamid/" + $(this).data('teamid'), function( data ) {
 					$('#teamContent').html( data );
-					$('#teamDeleteBtn').removeClass('d-none');
+					$('.teamActionBtn').removeClass('d-none');
 				});
 
 
@@ -193,6 +264,11 @@ eventsNS = {
 				siteAjax.loadModalContent('teamnew/tournamentid/' + $(this).data('tournamentid'), 'Add New Team');
 			});
 
+			$('#teamRenameBtn').on('click', function (e) {
+
+				thisTeam = $('.list-group-item-secondary').data('teamid')
+				siteAjax.loadModalContent('teamedit/teamid/' + thisTeam, 'Edit Team Name');
+			});
 			
 			$('#teamDeleteBtn').on('click', function (e) {
 				
@@ -225,12 +301,102 @@ eventsNS = {
 			// load first item on team list
 			$('.teamDetailListBtn')[0].click();
 		},
+		manageapprovals: function () {
 
-		
+			$('#playerApprovalTab').on('click', function (e) {
+				base = $('#sectionForm').attr('action');
+				$("#sectionForm").attr('action', base + '/section/player/');
+				$("#sectionForm").submit();
+			});
+			$('#teamApprovalTab').on('click', function (e) {
+				base = $('#sectionForm').attr('action');
+				$("#sectionForm").attr('action', base + '/section/team/');
+				$("#sectionForm").submit();
+
+			});
+			$('.playerdetailBtn').on('click', function (e) {
+				siteAjax.loadModalContent('playerdetail/playerid/' + $(this).data('playerid'), 'Player Details : ' + $(this).data('playername'));
+				uiNS.showModalCloseFooter(1);
+			});
+
+			$('.teamDetailList button').on('click', function (e) {
+				$('.teamDetailList button.list-group-item-secondary').removeClass('list-group-item-secondary');
+				$(this).addClass('list-group-item-secondary');
+
+				$.get("/team/members/approval/true/teamid/" + $(this).data('teamid'), function( data ) {
+					$('#teamContent').html( data );
+					$('.teamActionBtn').removeClass('d-none');
+				});
+
+
+			});
+
+
+			// load first item on team list
+			try {
+				$('.teamDetailListBtn')[0].click();
+			} catch (e) {   }
+
+			$('#teamRenameBtn').on('click', function (e) {
+				thisTeam = $('.list-group-item-secondary').data('teamid')
+				siteAjax.loadModalContent('teamedit/teamid/' + thisTeam, 'Edit Team Name');
+			});
+			
+			$('#teamDeleteBtn').on('click', function (e) {
+				
+				thisTeam = $('.list-group-item-secondary').data('teamid');
+				var srcField = $('.list-group-item-secondary');		
+				bootbox.confirm({
+					message: "Are you sure you wish to delete this team?<br><br>Since this team is not approved, the players will also be deleted.",
+					closeButton: false,
+					buttons: {
+						cancel: {
+							label: 'No',
+							className: 'btn btn-danger'
+						},
+						confirm: {
+							label: 'Yes',
+							className: 'btn btn-success'
+						}
+					},
+					callback: function (result) {
+						if (result) {
+							siteAjax.deleteTeam(thisTeam, false, $(srcField));
+						}
+					}
+				});
+			});
+			$('#teamContent').on('click', '.approveTeamBtn', function (e) {		
+				tourneyNS.approveChoiceComfirm(1, this);
+			});
+			$('#teamContent').on('click', '.rejectTeamBtn', function (e) {
+				tourneyNS.approveChoiceComfirm(2, this);
+			});
+			$('#teamContent').on('click', '.rescindTeamBtn', function (e) {				
+				tourneyNS.approveChoiceComfirm(3, this);
+			});
+			$('#teamContent').on('click', '.rescindRejectTeamBtn', function (e) {				
+				tourneyNS.approveChoiceComfirm(4, this);
+			});
+
+			$('.approvePlayerBtn').on('click', function (e) {		
+				tourneyNS.approveChoiceComfirm(5, this);
+			});
+			$('.rejectPlayerBtn').on('click', function (e) {
+				tourneyNS.approveChoiceComfirm(6, this);
+			});
+			$('.rescindPlayerApproveBtn').on('click', function (e) {				
+				tourneyNS.approveChoiceComfirm(7, this);
+			});
+			$('.rescindPlayerRejectBtn').on('click', function (e) {				
+				tourneyNS.approveChoiceComfirm(8, this);
+			});
+
+		},
 
 		manageplayers: function () {
 			$('.playerdetailBtn').on('click', function (e) {
-				siteAjax.loadModalContent('playerdetail/playerid/' + $(this).data('playerid'), 'Player Details : ' + $(this).data('playername'));
+				siteAjax.loadModalContent('playeredit/playerid/' + $(this).data('playerid'), 'Player Edit : ' + $(this).data('playername'));
 			});
 
 			$('.playerAddBtn').on('click', function (e) {
@@ -286,9 +452,93 @@ eventsNS = {
 		teambuilder : function(){
 
 
+			$('.playerdetailBtn').on('click', function (e) {
+				siteAjax.loadModalContent('playerdetail/playerid/' + $(this).data('playerid'), 'Player Details : ' + $(this).data('playername'));
+				uiNS.showModalCloseFooter(1);
+			});
+
+
+			$('.teamDetailBtn').on('click', function (e) {
+				siteAjax.loadModalContent('teammembers/teamid/' + $(this).data('teamid'), 'Team Makeup : ' + $(this).text());
+				uiNS.showModalCloseFooter(1);
+			});
+
+
+
+			$('.playerFilterDDBTN').on('click', function (e) {
+
+				$filter = $(this).data('filter');
+				$value = $(this).data('value');
+				$showrank = '';
+				$showPlatform = '';
+
+				if (typeof $rankLast === 'undefined') {
+					$rankLast = '';
+				}
+				if (typeof $platformLast === 'undefined') {
+					$platformLast = '';
+				}
+				$(".list-group-sortable-source li").removeClass('d-none'); // show everything
+
+
+				if ($filter == "rank") {
+					$rankLast = $value;
+					if ($value != 'all') {
+						$showrank = $value;
+						$('#rankLabel').html( $showrank == 0 ? 'Unknown' :  $showrank );
+						$(".list-group-sortable-source li[data-rank!='" +$showrank+ "']").addClass('d-none');
+					} else {
+						$rankLast = ''
+						$('#rankLabel').html('Rank');
+					}
+				} else { // hot filtering on rank but need to preserve previous
+					if ( $rankLast != '' || $rankLast === 0 ){
+						$showrank = $rankLast;
+					}
+				}
+
+				if ($filter == "platform") {
+					$platformLast = $value;
+					if ($value != 'all') {
+						$showPlatform = $value;
+						$('#platformLabel').html( $showPlatform == 0 ? 'Unknown' :  $showPlatform );
+						$(".list-group-sortable-source li[data-platform!='" +$showPlatform+ "']").toggleClass('d-none');
+					} else {
+						$platformLast = ''
+						$('#platformLabel').html('Platform');
+					}
+				} else { // hot filtering on platform but need to preserve previous
+					if ($platformLast != '' || $platformLast === 0 ){
+						$showPlatform = $platformLast;
+					}
+				}
+
+				if (($showrank != '' || $showrank === 0) && $filter!='rank') {
+					$(".list-group-sortable-source li[data-rank!='" +$showrank+ "']").addClass('d-none');
+				}
+
+				if (($showPlatform != '' || $showPlatform === 0) && $filter!='platform') {
+					$(".list-group-sortable-source li[data-platform!='" +$showPlatform+ "']").addClass('d-none');
+				}
+
+			});
+
+			
+			$('.editTeamBtn').on('click', function (e) {
+				siteAjax.loadModalContent('teamedit/teamid/' + $(this).data('teamid'), 'Edit Team Name');
+			});
 			$('.teamAddBtn').on('click', function (e) {
 				siteAjax.loadModalContent('teamnew/tournamentid/' + $(this).data('tournamentid'), 'Add New Team');
 			});
+		
+			$('.teamGenerateAddBtn').on('click', function (e) {
+				siteAjax.loadModalContent('teamfill/tournamentid/' + $(this).data('tournamentid'), 'Prefix for Team Names');
+			});
+
+			$('.autofillBtn').on('click', function (e) {
+				tourneyNS.processAutofill( $(this).data('tournamentid') );
+			});
+
 
 
 			sortable('.list-group-sortable-source', {
@@ -303,7 +553,7 @@ eventsNS = {
 				placeholderClass: 'border-danger',
 				placeholder: '<div>&nbsp;</div>',
 				acceptFrom: '.list-group-sortable-source, .list-group-sortable-teams',
-				forcePlaceholderSize: true,
+				forcePlaceholderSize: false,
 				handle: 'i',
 				maxItems: $('#tournamentInfo').data('teamsize')
 			});
@@ -327,8 +577,44 @@ eventsNS = {
 					item = $(e.detail.item).closest('div .card');
 					uiNS.updateTeamBorder(teamTotal, item);
 
+					originTotal = $(e.detail.origin.items).length
+					originItem = $(e.detail.origin.container).closest('div .card');
+					uiNS.updateTeamBorder(originTotal, originItem);
+
 				});
 			}
+
+		},
+		edit : function(){
+
+
+			$('#regenabled').on('change', function(e) {
+
+				if ($(this).prop("checked")) { // reg on
+					if ($('#latereg').prop("checked")) {
+						$('#cutoff').prop('required',false);
+					} else {
+						$('#cutoff').prop('required',true);
+					}
+					$('#regstart').prop('required',true);
+					$('#regend').prop('required',true);
+				} else { // reg off
+
+					// turn off req dates
+					$('#regstart').prop('required',false);
+					$('#regend').prop('required',false);
+					$('#cutoff').prop('required',false);
+				}
+
+			});
+			$('#latereg').on('change', function(e) {
+				if ($(this).prop("checked")) {
+					$('#cutoff').prop('required',true);			
+				} else {
+					$('#cutoff').prop('required',false);								
+				}
+
+			});
 
 		}
 	},
@@ -357,7 +643,7 @@ eventsNS = {
 						className: 'btn btn-success'
 					}
 				},
-				callback: function (result) {
+				callback: function (result) {					
 					if (result) {
 						siteAjax.deleteTournament($(srcField).data('tournamentid'), false, $(srcField), $(srcField).data('relocate'));
 					}

@@ -2,5 +2,6 @@ component persistent="true" object="tournamenttype" extends="base" table="tourna
 
 	property name="name" ormtype="string";
 
+	property name="hasteams" ormtype="integer" default="1" ;   
 
 }

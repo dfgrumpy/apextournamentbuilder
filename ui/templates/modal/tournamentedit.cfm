@@ -10,9 +10,18 @@
             </div>
         </div>
         <div class="row g-3">
+            <div class="col-md-12">
+                <label for="tourneyname" class="form-label">Tournament Contact Email</label>
+                <input type="email" class="form-control" id="contactemail" name="contactemail" value="#rc.tournament.getcontactemail()#" >
+                <div class="invalid-feedback">
+                   Please Enter an email address.
+                </div>
+            </div>
+        </div>
+        <div class="row g-3">
             <div class="col-md-6">
                 <label for="eventdate" class="form-label">Tournament Date</label>
-                <input type="date" class="form-control" id="eventdate" name="eventdate" min="#dateformat(now(), 'yyyy-mm-dd')#" value="#rc.tournament.geteventdate()#" required>
+                <input type="datetime-local" class="form-control" id="eventdate" name="eventdate" step="3600" min="#dateformat(now(), 'yyyy-mm-dd')#" value="#rc.tournament.geteventdateForForm()#" required>
                 <div class="invalid-feedback">
                     A tournament date is required
                 </div>
@@ -49,7 +58,7 @@
         <div class="row g-3">
             <div class="col-md-6 mx-auto">
                 <cfif ! IsNull(rc.tournament.getregistrationstart())>
-                    <label for="latereg" class="form-label">Allow late registration?</label>
+                    <label for="latereg" class="form-label">Allow Late Registration?</label>
                     <input class="toggleControl" data-height="48" type="checkbox" value="1" <cfif rc.tournament.getallowlate() eq 1>checked</cfif> data-toggle="toggle"  data-style="slow" data-on="<i class='bi bi-check-lg'></i>  Yes" data-off="<i class='bi bi-x-lg'></i>  No" data-onstyle="info  py-2 fs-5" data-offstyle="danger py-2 fs-5" data-width="100%"  name="latereg" id="latereg">
                 </cfif>
             </div>
@@ -66,6 +75,12 @@
             <div class="col-md-12 ">
                 <label for="exampleFormControlTextarea1" class="form-label">Tournament Description</label>
                 <textarea class="form-control summernote" id="exampleFormControlTextarea1" rows="5" id="tourneydetail" name="tourneydetail">#rc.tournament.getdetails()#</textarea>
+            </div>
+        </div>
+        <div class="row g-3">
+            <div class="col-md-12 ">
+                <label for="exampleFormControlTextarea2" class="form-label">Tournament Rules</label>
+                <textarea class="form-control summernote" id="exampleFormControlTextarea2" rows="5" id="tourneyrules" name="tourneyrules">#rc.tournament.getrules()#</textarea>
             </div>
         </div>
         <!--- This button is here to js can force browser validation --->

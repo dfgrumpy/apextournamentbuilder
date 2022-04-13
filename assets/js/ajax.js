@@ -204,7 +204,10 @@ siteAjax = {
 			url: url
 		}).done(function (result) {
 			if (relocate) {
-				window.location.replace("/tournament/mytournaments");
+				setTimeout(function () {
+					window.location.replace("/tournament/mytournaments");
+				}, 2000);
+				uiNS.displayNotification('success', 'Tournament has been deleted.');
 			} else {
 				uiNS.displayNotification('success', 'Tournament has been deleted.' + addl);
 				$(tourneyrow).closest('tr').remove();
@@ -244,10 +247,36 @@ siteAjax = {
 	        url: url,
 	        data: payload
 	    }).done(function(result) {
+			if (!result) {
+				uiNS.displayNotification('danger', 'There was an error updating the player.');					
+			}
 			
 	    }).fail(function() {
+			uiNS.displayNotification('danger', 'There was an error updating the player.');					
 		});	
 
+
+	},
+
+	processAutofill: function (payload) {
+
+		var url = siteAjax.getBaseURL() + '/ajax/savedata/item/teammatchmaking/'
+		
+		$.ajax({
+	        type: "POST",
+	        url: url,
+	        data: payload
+	    }).done(function(result) {
+			if (!result) {
+				uiNS.displayNotification('danger', 'There was an error updating the teams.');					
+			} else {
+				uiNS.displayNotification('success', 'Teams have been populated... Reloading.');		
+				setTimeout(function () { location.reload(true); }, 1000);							
+			}
+			
+	    }).fail(function() {
+			uiNS.displayNotification('danger', 'There was an error updating the teams.');					
+		});	
 
 	},
 

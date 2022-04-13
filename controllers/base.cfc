@@ -8,6 +8,7 @@ component accessors="true"    {
 	property securityService;
 	property configService;
 	property errorhandlerService;
+	property fileReaderUtil;
 
 	property uiHelperService;
 	property ValidatorUtil;
@@ -21,9 +22,28 @@ component accessors="true"    {
 	
 	public any function before( rc ) {
 		arguments.rc.uihelper = getuiHelperService();
+
+		if (structKeyExists(session, 'loginuser')){
+			getsessionservice().setpublicAcessType(0);
+		}
 	}
 
-	
+	public any function findkeyInURL( data ) {
+		var thisUrl = arguments.data;
+		var thisKey = [];
+		 // By listEach() 
+		 for (item in listToArray(thisUrl.keyList(), ",")) { 
+			thisKey = rematch('^[a-zA-Z0-9]{15}$', item);
+			if (thisKey.len()) {
+				break;
+			}
+		} 
+
+
+		return thisKey;
+
+	}
+
 
 	public void function after( rc ) {
 		/*

@@ -25,7 +25,7 @@ component accessors="true" hint="for security items" extends="model.base.baseget
 
 	}
 
-	public struct function generateKey(){				
+	public any function generateKey(){				
 		return hashString(createUUID()).hash.left(15);
 	}
 
@@ -69,6 +69,11 @@ component accessors="true" hint="for security items" extends="model.base.baseget
 		var baseItem = arguments.section.listlast('.');
 		var fullLocation = cgi.path_info;
 		var secureLocation = 0;
+
+		if (fullLocation contains "item/forgotlogin") {
+			return 0;
+		}
+
 
 		var isSecure = arrayfind(secureSections,function(item) {
 

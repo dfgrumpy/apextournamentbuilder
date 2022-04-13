@@ -2,6 +2,8 @@ component persistent="true" object="team" extends="base" table="team" {
 
 	property name="name" ormtype="string";
 	property name="status" ormtype="integer" default="1" ;   
+	property name="approved" ormtype="integer" default="1" ;   
+	property name="alternate" ormtype="boolean" default="0";
 
 	
 	property name="tournament" fieldtype="many-to-one" cfc="tournament";  

@@ -5,14 +5,15 @@ component accessors="true"  extends="framework.one"{
 	property securityService;
 	property sessionService;
 	property settingsService;
+	property utilsService;
 
 	variables.webrootPath = getDirectoryFromPath(getCurrentTemplatePath());
 
 
-	this.name = hash('apextournament');
+	this.name = hash('tournamentcrafter');
 	this.sessionManagement=true;
 	this.sessionTimeout = createTimespan(0,1,0,0);
-	this.datasource = "atb";
+	this.datasource = "tournamentcrafter";
 	this.ormEnabled = true;
 	this.showDebugOutput=false;
 	this.wschannels = [{name="apex"} ];
@@ -69,7 +70,6 @@ component accessors="true"  extends="framework.one"{
 	private void function setupApplication(){
 		if (structKeyExists(url, 'updateorm') && getEnvironment() == "dev") {
 			ormreload();
-			pagePoolClear();
 			abort;
 		}
 		application.javaProps = createObject( "java", "java.lang.System" ).getProperties();
@@ -99,7 +99,6 @@ component accessors="true"  extends="framework.one"{
 
 
 	public string function getEnvironment(){
-
 		if (
 			cgi.server_name contains "local" ||
 			cgi.server_name contains "dev" ||
@@ -137,6 +136,7 @@ component accessors="true"  extends="framework.one"{
 
 		var isSecureLocation = getsecurityService().isSecureSection(getSectionanditem());
 
+
 		if (isSecureLocation && ! getSessionService().isUserLoggedIn()){
 			if (getsecurityService().isRedirectSection(cgi.PATH_INFO)) {			
 				getSessionService().setEntryURL(cgi.PATH_INFO);
@@ -162,6 +162,18 @@ component accessors="true"  extends="framework.one"{
 
 
 
+		if ( getsection() == 't'){
+			linkdata = getUtilsService().verifyShortLink(getitem());
+
+			if (!isNull(linkdata)) {
+				redirect( action = 'tournament.view/#linkdata.getlinkkey()#' );
+			} else {
+				redirect( action = 'main.default' );
+			}
+
+		}
+
+
 
 	}
 
@@ -181,8 +193,10 @@ component accessors="true"  extends="framework.one"{
 
 	function onError( exception ) {
 
-		writeDump(exception);
+		//writeDump(exception);
 		return super.onError( argumentCollection: arguments );
+
+
 	}
 
 

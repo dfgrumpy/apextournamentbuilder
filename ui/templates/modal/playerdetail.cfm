@@ -1,70 +1,60 @@
 
 
 <cfoutput>
-	<form class="row g-3" data-form="playerdetail" id="modalForm" data-keyboard="true" data-backdrop="static" autocomplete="off">
-        <input type="hidden" name="playerid" id="playerid" value="#rc.player.getid()#">
         <div class="col-md-12">
-            <label for="playername" class="form-label">Player Name</label>
-            <input type="text" class="form-control" id="playername" name="playername" value='#rc.player.getGamerName()#'>
-        </div>
-        <div class="col-md-6">
-            <label for="discord" class="form-label">Discord</label>
-            <input type="text" class="form-control" id="discord" name="discord" value='#rc.player.getDiscord()#'>
-        </div>
-        <div class="col-md-6">
-            <label for="Twitter" class="form-label">Twitter</label>
-            <input type="text" class="form-control" id="Twitter" name="Twitter" value='#rc.player.getTwitter()#'>
-        </div>
-        <div class="col-md-6">
-            <label for="Twitch" class="form-label">Twitch</label>
-            <input type="text" class="form-control" id="Twitch" name="Twitch" value='#rc.player.getTwitch()#'>
-        </div>
-        <div class="col-md-6">
-            <label for="Platform" class="form-label">Platform</label>
-            <select id="Platform"  name="Platform" class="form-select">
-                <option value="">----</option>
-            <option <cfif rc.player.getPlatform() eq "xbl">selected</cfif>>XBL</option>
-            <option <cfif rc.player.getPlatform() eq "psn">selected</cfif>>PSN</option>
-            <option <cfif rc.player.getPlatform() eq "pc">selected</cfif>>PC</option>
-            </select>
-        </div>
-
-        <div class="col-md-6">
-            <label for="inputPassword4" class="form-label">Rank</label>
-            <select id="rank"  name="rank" class="form-select">
-                <option value="">----</option>
-                    <cfset ranks = ['Bronze', 'Silver', 'Gold', 'Platinum', 'Diamond', 'Master', 'Apex Predator']>
-                    <cfloop item='r' array="#ranks#">
-                        <option <cfif rc.player.getrank() contains r>selected</cfif>>#r#</option>
-                    </cfloop>
-
-            </select>
-        </div>
-        <div class="col-md-6">
-            <label for="Level" class="form-label">Level</label>
-            <input type="text" class="form-control" id="Level"  name="Level" value='#rc.player.getlevel()#'>
-        </div>
-
-        <div class="col-md-6">
-            <label for="Kills" class="form-label">Kills</label>
-            <input type="text" class="form-control" id="Kills"  name="Kills" value='#rc.player.getKills()#'>
-        </div>
-
-        <div class="col-md-6">
-            <label for="Originname" class="form-label">Origin <i id="showorigin" role="button" class="bi bi-eye-fill text-danger fs-6"></i></label>
-            <input type="password" class="form-control" id="Originname" name="Originname" value='#rc.player.getOriginname()#'>
-        </div>
-        <div class="col-md-8">
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="1" id="Streaming" name="Streaming" <cfif rc.player.getStreaming()>checked</cfif>>
-                <label class="form-check-label" for="flexSwitchCheckChecked">Streaming Tournament</label>
+            <table class="table table-striped table-bordered">
+                <tbody>
+                  <tr>
+                    <td width="40%">Rank</td>
+                    <td>
+                      <cfset rank = rc.uihelper.apexRankToIcon(rc.player.getPlayerRank())>
+                      <cfif rank.len()>
+                          <img src="/assets/images/apexranks/#rank#.png" width="30px" class="me-2 <cfif rc.player.gettracker()>tracker-rank-glow</cfif>" title="#rc.player.getPlayerRank()#">
+                      <cfelse>
+                          <i class="bi bi-shield-slash-fill" style="font-size: 1.3rem; color: grey;" class="me-2" title="Unknown Rank"></i>
+                      </cfif>
+                      
+                      #rc.player.getPlayerRank()#</td>
+                  </tr>
+                  <tr>
+                    <td>Platform</td>
+                    <td>#rc.player.getPlatform()#</td>
+                  </tr>
+                  <tr>
+                    <td>Twitter</td>
+                    <td>#rc.player.getTwitter()#</td>
+                  </tr>
+                  <tr>
+                    <td>Twitch</td>
+                    <td>#rc.player.getTwitch()#</td>
+                  </tr>
+                  <tr>
+                    <td>Discord</td>
+                    <td>#rc.player.getDiscord()#</td>
+                  </tr>
+                  <tr>
+                    <td>Level</td>
+                    <td>#rc.player.getlevel()#</td>
+                  </tr>
+                  <tr>
+                    <td>Kills</td>
+                    <td>#rc.player.getKills()#</td>
+                  </tr>
+                  <tr>
+                    <td>Originname</td>
+                    <td>#rc.player.getOriginname()#</td>
+                  </tr>
+                  <tr>
+                    <td>Streaming</td>
+                    <td>#YesNoFormat(rc.player.getStreaming())#</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
+        
         </div>
-
-    </form>
+     
 </cfoutput>
-
-
 
 <script>
 

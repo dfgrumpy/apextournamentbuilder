@@ -15,5 +15,4 @@ component persistent="true" object="errorlog" extends="base" {
 		variables.guid = createuuid();
 		
 	}
-
 }

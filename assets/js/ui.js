@@ -49,7 +49,7 @@ uiNS = {
 
         $('#toastHeader').addClass('alert-' + type);
         $('.toast').toast('show');
-
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     },
 
 
@@ -67,6 +67,21 @@ uiNS = {
             $(item).addClass('border-danger');
         } else {
             $(item).addClass('border-warning');            
+        }
+
+        completion = Math.floor(($('.border-success').length / $('#teamCompletionProgress').data('maxteams')) * 100) + '%';
+        $('#teamCompletionProgress').css('width', completion);
+        
+    },
+
+    showModalCloseFooter : function(type){
+
+        if (type == 0) {// normal
+            $("#primary-footer").removeClass('d-none');
+            $("#close-only-footer").addClass('d-none');        
+        } else { // close only
+            $("#primary-footer").addClass('d-none');
+            $("#close-only-footer").removeClass('d-none');
         }
 
     }

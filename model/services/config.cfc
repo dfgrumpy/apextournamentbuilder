@@ -129,7 +129,7 @@ component accessors="true" extends="model.base.baseget"    {
 	public string function getCurrentHttpBase() {
 		
 		if (! len(this.gethttpBase())) {		
-			var base = (cgi.https == "on")? "https://" : "http://";
+			var base = (cgi.https == "on" || cgi.https == '' || cgi.SERVER_PORT_SECURE)? "https://" : "http://";
 			set('httpBase', base);		
 		}
 		

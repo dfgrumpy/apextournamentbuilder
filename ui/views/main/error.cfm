@@ -1,19 +1,25 @@
-﻿<cfset request.layout = false />
-<!--- courtesy of Andreas Schuldhaus --->
-<div style="width: 50%; color: red; border: 2px dotted red; background-color: #f9f9f9; padding: 10px;">
-	<h1 style="color: red;">ERROR!</h1>
-	<div style="width: 100%; text-align: left;">
-		<p><b>An error occurred!</b></p>
-		<cfoutput>
-			<cfif structKeyExists( request, 'failedAction' )>
-                <!--- sanitize user supplied value before displaying it --->
-				<b>Action:</b> #replace( request.failedAction, "<", "&lt;", "all" )#<br/>
-			<cfelse>
-				<b>Action:</b> unknown<br/>
-			</cfif>
-			<b>Error:</b> #request.exception.cause.message#<br/>
-			<b>Type:</b> #request.exception.cause.type#<br/>
-			<b>Details:</b> #request.exception.cause.detail#<br/>
-		</cfoutput>
+﻿
+<cfheader statuscode="500" statustext="Request Failure">
+
+
+<cfimport prefix="displaypanels" taglib="/ui/customtags/display">
+
+<cfif ! structKeyExists(rc, 'errorguid')>
+	<cfset rc.errorguid = '7A0CE683-9999-ZZZZ-85496DBAD49F06E0'>
+</CFIF>
+
+<cfif cgi.SERVER_NAME contains "localll">
+	<displaypanels:errordump hidedisplay="false" />
+<cfelse>
+	<div class="container">
+		<div class="bg-primary p-5 rounded mt-3">
+			<h1 class="text-info">Well this is embarrassing</h1>
+			<p class="lead">If you are seeing this then something has gone wrong.  Apparently, our developer has failed to handle something propperly and you got an error.  We have been notified and will look into the issue.</p>
+		</div>
+		
 	</div>
-</div>
+	<displaypanels:errordump hidedisplay="true" />
+</cfif>
+
+
+
