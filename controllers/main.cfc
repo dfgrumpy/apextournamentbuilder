@@ -5,6 +5,9 @@ component accessors="true" {
 	property securityService;
 	property sessionService;
 	property userService;
+	property utilsService;
+	property configService;
+	property errorHandlerService;
 	
 	public any function init( fw ) {
 		variables.fw = fw;
@@ -12,8 +15,10 @@ component accessors="true" {
 	}
 	
 	public void function default( rc ) {
-        var instant = variables.beanFactory.getBean( "instant" );
-		rc.today = variables.formatterService.longdate( instant.created() );
+		
+		if (rc.keyExists('showConfig') && rc.showConfig == 'crafter') {
+			writeDump(getConfigService().getBaseConfig());abort;
+		}
 	}
 	
 	public void function sitelink( rc ) {
@@ -21,10 +26,7 @@ component accessors="true" {
 		var customurl = variables.fw.getitem();
 		var tourneyowner = getuserService().getByCustomURL(variables.fw.getitem());
 
-		if (! isNull(tourneyowner)) {
-			variables.fw.redirect('tournament.mytournaments');
-		}
-	
+
 	}
 	
 	public void function logout( rc ) {
@@ -45,6 +47,61 @@ component accessors="true" {
 		}
 		
 
+
+	}
+
+	public void function reset( rc ) {
+		var thisUser = getuserService().getUserByResetLink(rc.link);
+
+		if (isNull(thisUser)){
+			variables.fw.redirect( action = 'main.default' );
+		} else {
+			// save the passed in link to reference later
+			getSessionService().setresetlink(rc.link);
+		}
+
+	}
+
+	public void function resetprocess( rc ) {
+
+		// is reset link not in session.  Can't continue
+		if (!len(getSessionService().getResetLink())) {
+			variables.fw.redirect( action = 'main.default' );
+		}
+
+		var result = getUserService().saveResetPassword(rc);
+
+		if (! result) {
+			variables.fw.redirect( action = 'main.reset', querystring= 'link/#getSessionService().getResetLink()#/fail' );
+		} else {
+			rc.loginreset = true;
+			variables.fw.redirect( action = 'main.default', append="loginreset" );
+		}
+	}
+
+	public void function verify( rc ) {
+		var thisUser = getuserService().getUserByVerifyCode(rc.link);
+		
+		if (isNull(thisUser)){
+			variables.fw.redirect( action = 'main.default' );
+		} else {
+			thisUser.setstatus(1);
+			entitySave(thisuser);
+			ormflush();
+		}
+	
+	}
+
+
+	public void function error(rc){
+
+		try {
+			rc.errorguid = geterrorHandlerService().logError(request);
+		}
+        catch(Any e){ 
+		}
+
+		variables.fw.setLayout('error');
 
 	}
 }

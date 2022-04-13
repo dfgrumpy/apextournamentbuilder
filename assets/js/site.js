@@ -11,7 +11,6 @@ mainNS = {
         try {
             (function () {
                 'use strict'
-
                 // Fetch all the forms we want to apply custom Bootstrap validation styles to
                 var forms = document.querySelectorAll('.needs-validation')
 
@@ -20,8 +19,10 @@ mainNS = {
                     .forEach(function (form) {
                         form.addEventListener('submit', function (event) {
                             if (!form.checkValidity()) {
-                                event.preventDefault()
-                                event.stopPropagation()
+                                window.scrollTo({ top: 0, behavior: 'smooth' });
+                                uiNS.displayNotification('danger', 'Please correct the errors and submit again.');
+                                event.preventDefault();
+                                event.stopPropagation();
                             }
 
                             form.classList.add('was-validated')
@@ -42,51 +43,25 @@ mainNS = {
 
 
 
-    forgotLogin: function (ui) {
-
-        var error = '', $emailField = $('#accountEmail')
-
-        $(".has-error").removeClass("has-error");
-        error += ($emailField.val().length) ? 0 : $emailField.closest('.form-group').toggleClass('has-error');
-
-
-        if (error == 0) {
-            formData = JSON.stringify($('#modalForm').serializeArray());
-            package = { modal: true, url: '/ajax/savedata/item/forgotlogin', payload: formData, handler: 'mainNS.forgotLoginResult' };
-            siteAjax.saveFormData(package);
-        } else {
-            uiNS.displayNotification('danger', 'Please enter your account email address.', '#baseModal');
-        }
-
+    forgotLogin: function () {
+        
+        formData = JSON.stringify($('#modalForm').serializeArray());
+        package = { modal: true, url: '/ajax/savedata/item/forgotlogin', payload: formData, handler: 'mainNS.forgotLoginResult' };
+        siteAjax.saveFormData(package);
+        
 
     },
 
 
     forgotLoginResult: function (res) {
 
-
         uiNS.setModalHide();
         // display alert after a 2 seconds so that modal closes first.
         setTimeout(function () {
-            uiNS.displayNotification('success', 'If the email address entered is known, an email will be sent to that address with further instructions.');
+            uiNS.displayNotification('success', 'If the email address entered belongs to an active account, an email will be sent to that address with further instructions.', '', 10000);
         }, 2000);
 
     },
-
-    processRegister: function () {
-        
-        $('#registerContinueBtn').toggleClass('disabled');
-
-        if ($('#fname').val().length == 0 || $('#password').val().length == 0 || $('#email').val().length == 0) {
-            $('.infoIncompleteForm').toggleClass('d-none');
-            $('#registerContinueBtn').toggleClass('disabled');
-        } else {
-            $('#infoForm').submit();
-
-        }
-
-    },
-
 
     processTournamentCreate: function () {        
         alert('here');

@@ -9,7 +9,7 @@
     "clientStorage":"Cookie",
     "datasourcePreserveSingleQuotes":"false",
     "datasources":{
-        "atb": {
+        "tournamentcrafter": {
             "allowAlter": true,
             "allowCreate": true,
             "allowDelete": true,
@@ -25,7 +25,7 @@
             "clob": "false",
             "connectionTimeout": "1",
             "custom": "characterEncoding=UTF-8&serverTimezone=America%2FLos_Angeles&maxReconnects=3",
-            "database": "apextournament",
+            "database": "tournamentcrafter",
             "dbdriver": "MySQL",
             "dsn": "jdbc:mysql://{host}:{port}/{database}",
             "host": "localhost",
@@ -168,10 +168,18 @@
         {
             "tls":"false",
             "password":"",
-            "port":"25",
+            "port":"2525",
             "username":"",
             "ssl":"false",
             "smtp":"127.0.0.1"
+        },
+        {
+            "tls":"true",
+            "password":"a7iNFby4TNdbc4v",
+            "port":"587",
+            "username":"TournamentCrafter@mail.com",
+            "ssl":"false",
+            "smtp":"smtp.mail.com"
         }
     ],
     "mailSpoolEnable":"true",

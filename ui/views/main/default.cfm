@@ -3,11 +3,20 @@
 <div class="container py-3">
   <main>
     <section class="py-0 text-center container">
+      <cfif structKeyExists(rc, 'loginreset')>
+        <div class="alert alert-dismissible alert-info text-start">
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+          <h4 class="alert-heading">All Set!</h4>
+          <p class="mb-0">Your password has been reset.  Please login using the login link above.</p>
+        </div>
+      </cfif>
+
       <div class="row py-lg-5">
-        <div class="col-lg-10 col-md-8 mx-auto">
+
+         <div class="col-lg-10 col-md-8 mx-auto">
           <h1 class="fw-light">Create Your Apex Legends Tournament</h1>
           <p class="lead text-muted">
-              Start by either entering your competitors or have them signup on their own.
+             Select from one of the options below to get started.
           </p>
         </div>
       </div>
@@ -25,8 +34,8 @@
                 <li>Competitors Self Register</li>
                 <li>Team and/or Individual</li>
                 <li>Admin Controls</li>
-                <li>Notifications</li>
-                <li>Stats linking</li>
+                <li>Auto / Manual Team Creation</li>
+                <li>Stats Linking</li>
               </ul>
               <a role="button" class="w-100 btn btn-lg btn-primary disabled" href="<cfoutput>#buildurl('tournament.create?step=start&type=open')#</cfoutput>" disabled>Coming Soon</a>
             </div>
@@ -40,10 +49,10 @@
             <div class="card-body">
               <ul class="list-unstyled mt-3 mb-4">
                 <li>Manual Entry</li>
-                <li>Team or Individual</li>
+                <li>Self Registration Invite Links</li>
                 <li>Admin Controls</li>
-                <li>Notifications</li>
-                <li>Stats linking</li>
+                <li>Auto / Manual Team Creation</li>
+                <li>Stats Linking</li>
               </ul>
               <cfif structKeyExists(session, 'loginuser')>
                 <a role="button" class="w-100 btn btn-lg btn-primary" href="<cfoutput>#buildurl('tournament.create?step=tourney&type=invitational')#</cfoutput>">Continue</a>

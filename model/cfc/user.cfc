@@ -6,11 +6,14 @@ component persistent="true" object="user" extends="base" table="users" {
 	property name="lastlogin" ormtype="timestamp";
 	property name="password" ormtype="string";
 	property name="salt" ormtype="string";
+	property name="verifycode" ormtype="string";
 	property name="customurl" ormtype="string" hint="For using custom url to get to tournament list";
 	property name="status" ormtype="int" default="0";
 	property name="resetlockout" ormtype="boolean" default="0"   ;
 	property name="notificationExlude" ormtype="boolean" default="0";
 	
+	property name="loginreset" fieldtype="one-to-one" cfc="loginreset" mappedby="user" lazy="true" ;
+
 	property name="securityrole" fieldtype="many-to-one" fkcolumn="roleid" cfc="role";
 	property name="tournament" fieldtype="one-to-many" cfc="tournament" fkcolumn="userid" lazy="true" ;
 
@@ -38,18 +41,5 @@ component persistent="true" object="user" extends="base" table="users" {
 
 	}
 	
-	public any function PreUpdate(){
-
-	}
-	
-	public any function preInsert(){
-	
-	}
-	
-
-
-	public any function PostUpdate(){
-
-	}
 
 }

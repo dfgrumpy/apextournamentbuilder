@@ -9,11 +9,14 @@ component persistent="true" object="player" extends="base" table="player" {
 	property name="twitch" ormtype="string";
 	property name="platform" ormtype="string" hint="pc, xbl, psn";
 	property name="streaming" ormtype="boolean" default="0";
+	property name="alternate" ormtype="boolean" default="0";
+	property name="approved" ormtype="integer" default="0";
 
-	property name="rank" ormtype="string";
+	property name="playerrank" ormtype="string";
 	property name="level" ormtype="integer";
 	property name="kills" ormtype="float";
 	property name="invitekey" ormtype="string";
+	property name="tracker" ormtype="boolean" default="0";
 	
 
 	property name="tournament" fieldtype="many-to-one" cfc="tournament";  
@@ -31,18 +34,6 @@ component persistent="true" object="player" extends="base" table="player" {
 
 	}
 	
-	public any function PreUpdate(){
 
-	}
-	
-	public any function preInsert(){
-	
-	}
-	
-
-
-	public any function PostUpdate(){
-
-	}
 
 }

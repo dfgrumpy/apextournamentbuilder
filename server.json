@@ -1,7 +1,26 @@
 {
+    "name":"tournamentcrafter.local",
+    "app":{
+        "cfengine":"adobe@2021"
+    },
     "web":{
+        "host":"${HOSTNAME:tournamentcrafter.local}",
+        "welcomeFiles":"index.cfm",
+        "HTTP":{
+            "enable":"true",
+            "port":"${HTTP_PORT:8080}"
+        },
         "SSL":{
-            "forceSSLRediect":"true"
+            "certFile":"/Users/dferguson/mkcerts/tournamentcrafter.local.pem",
+            "enable":"true",
+            "keyFile":"/Users/dferguson/mkcerts/tournamentcrafter.local-key.pem",
+            "port":"8443",
+            "forceSSLRedirect":"true"
+        },
+        "rewrites":{
+            "enable":"true"
         }
-    }
+    },
+    "cfconfigfile":"cfconfig.json",
+    "openbrowser":"false"
 }

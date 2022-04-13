@@ -3,9 +3,9 @@
         <div class="row g-3">
             <div class="col-md-12">
                 <label for="tourneyname" class="form-label">Team Name</label>
-                <input type="text" class="form-control" id="teamname" name="teamname" pattern=".{3,}" value="" required>
+                <input type="text" class="form-control" id="teamname" name="teamname" pattern=".{2,}" value="" required>
                 <div class="invalid-feedback">
-                    Team name must be at lest 3 characters
+                    Team name must be at lest 2 characters
                 </div>
             </div>
         </div>

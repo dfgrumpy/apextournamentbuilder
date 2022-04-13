@@ -6,6 +6,7 @@ component accessors="true" hint="for player items" extends="model.base.baseget" 
 	property userService;
 	property apexaipService;
 	property tournamentService;
+	property notificationService;
 	
 	public any function getPlayerByKey(required numeric playerid){
 		return entityLoadByPK('player', arguments.playerid);
@@ -20,7 +21,11 @@ component accessors="true" hint="for player items" extends="model.base.baseget" 
 		return ormExecuteQuery('from player where team = #arguments.teamID# and tournament = #arguments.tournamentid# ');
 	}
 
+	public any function countplayerswithoutteam(required numeric tournamentid){
 
+		var data =  queryexecute('select count(1) as playercount from player where tournamentid = ? and teamid is null', [arguments.tournamentid]);
+		return data.playercount;
+	}
 	public any function isPlayerinTournament(playerid, tournamentid){
 
 		var data =  queryexecute('select 1 from player where id = :playerid and tournamentid = :tourney', {playerid: arguments.playerid, tourney : arguments.tournamentid});
@@ -49,18 +54,17 @@ component accessors="true" hint="for player items" extends="model.base.baseget" 
 	public any function savePlayerEdit(required struct data){
 
 		var thisPlayer  = entityLoadByPK('player', arguments.data.playerid);
-
 		thisPlayer.setgamername( arguments.data.playername );
 		thisPlayer.setdiscord( arguments.data.discord );
 		thisPlayer.setTwitter( arguments.data.Twitter ); 
 		thisPlayer.settwitch( arguments.data.twitch ); 
 		thisPlayer.setPlatform( arguments.data.Platform );
-		thisPlayer.setrank( arguments.data.rank );
+		thisPlayer.setPlayerRank( arguments.data.PLAYERRANK );
 		thisPlayer.setLevel( arguments.data.Level );
 		thisPlayer.setKills( arguments.data.Kills );
 		thisPlayer.setOriginname( arguments.data.Originname );
 		thisPlayer.setStreaming( arguments.data.Streaming ); 
-
+		thisPlayer.setAlternate( arguments.data.alternate ); 
 
 		entitysave(thisPlayer);
 		ormflush();
@@ -70,33 +74,44 @@ component accessors="true" hint="for player items" extends="model.base.baseget" 
 
 	}
 
-	public any function saveNewPlayer(required any data) {
-		
+	public any function saveNewPlayer(required any data, required prevalidate = false) {
 
-		checkplayer = checkForPlayerByName(arguments.data.playername, arguments.data.Originname, arguments.data.tournamentid);
-		if (checkplayer.recordcount){
-			return {'error': 'failure', 'detail': 'Player / Origin name already exists in tournament'};
+
+		if (arguments.data.keyexists('tournament') && isObject(arguments.data.tournament)) {
+			thisTournament = arguments.data.tournament;
+		} else {
+			thisTournament = gettournamentService().getTournamentByKey(arguments.data.tournamentid);
 		}
 
+		if (! prevalidate) {
+			checkplayer = checkForPlayerByName(arguments.data.playername, arguments.data.Originname, thisTournament.getid());
+			if (checkplayer.recordcount){
+				return {'error': 'failure', 'detail': 'Player / Origin name already exists in tournament'};
+			}
+		}
+
+
 		thisdata = {
-			tournament : gettournamentService().getTournamentByKey(arguments.data.tournamentid),
-			gamername : arguments.data.playername,
-			discord : arguments.data.discord,
-			Twitter : arguments.data.Twitter ,
-			twitch : arguments.data.twitch ,
-			Platform : arguments.data.Platform,
-			rank : arguments.data.rank,
-			Level : arguments.data.Level,
-			Kills : arguments.data.Kills,
-			Originname : arguments.data.Originname,
-			Streaming : arguments.data.Streaming 
+			'tournament' : thisTournament,
+			'gamername' : arguments.data.playername,
+			'discord' : arguments.data.discord,
+			'Twitter' : arguments.data.Twitter ,
+			'twitch' : arguments.data.twitch ,
+			'Platform' : arguments.data.Platform,
+			'Playerrank' : arguments.data.playerrank,
+			'Level' : arguments.data.Level,
+			'Kills' : arguments.data.Kills,
+			'Originname' : arguments.data.Originname,
+			'Streaming' : arguments.data.Streaming,
+			'alternate' : arguments.data?.alternate ?: 0,
+			'approved' : arguments.data?.approved ?: 1,
+			'email' : arguments.data?.playeremail ?: ''
 		};
 		
 				
 		var player = entitynew("player", thisdata);
 		entitysave(player);
 		ormflush();
-
 		if (arguments.data.tracker){
 			try {
 				getTrackerData(player);
@@ -105,7 +120,6 @@ component accessors="true" hint="for player items" extends="model.base.baseget" 
 	
 		return player;
 	}
-
 
 	public any function getTrackerData(required any player) {
 
@@ -130,9 +144,10 @@ component accessors="true" hint="for player items" extends="model.base.baseget" 
 			var profile = getapexaipService().getPlayerProfile(playerName, thisplayer.getTrackerPlatform().lcase());
 			var stats = getapexaipService().getTrackedDataFromAPIResult(profile);
 
-			thisplayer.setrank(stats.rank);
+			thisplayer.setPlayerRank(REReplaceNoCase(stats.rank,'([^0-9]+).*','\1','ALL'));
 			thisplayer.setlevel(stats.level);
 			thisplayer.setkills(stats.kills);
+			thisplayer.settracker(1);
 
 			entitysave(thisPlayer);
 			ormflush();
@@ -140,6 +155,26 @@ component accessors="true" hint="for player items" extends="model.base.baseget" 
 		} catch(any e){ }
 
 		return true;
+
+	}
+
+	
+	public any function setPlayerApprovalState(required any playerid, required any tournamentid, required any approvalValue, required boolean sendNotification = false) {
+
+		queryexecute('update player set approved = :apr where id = :id and tournamentid = :tid', {id: arguments.playerid, tid: arguments.tournamentid, apr: arguments.approvalValue});		
+		
+
+		if (arguments.sendNotification) {
+			if (arguments.approvalValue == 1) {
+				getNotificationService().sendPlayerApproved(arguments.playerid, arguments.tournamentid);
+			} else if (arguments.approvalValue == -1) {
+				getNotificationService().sendPlayerRejected(arguments.playerid, arguments.tournamentid);				
+			} else if (arguments.approvalValue == 0) {
+				getNotificationService().sendPlayerPending(arguments.playerid, arguments.tournamentid);				
+			}
+		}
+
+		return 1;
 
 	}
 

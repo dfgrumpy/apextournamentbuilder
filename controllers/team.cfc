@@ -27,7 +27,6 @@ component accessors="true" {
 
 		rc.tournament = getTournamentService().getTournamentByKey(getsessionservice().gettournamentmanageid());
 		rc.players = getPlayerService().getPlayerByTeam(getsessionservice().gettournamentmanageid(), rc.teamid);
-		
 	}
 
 

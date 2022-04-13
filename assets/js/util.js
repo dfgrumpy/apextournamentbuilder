@@ -75,9 +75,39 @@ util = {
         }
 
 
+    },
+
+     dateDiff : function(start,end,interval) {
+        
+        var date1 = new Date(start);
+        var date2 = new Date(end);
+        date1.setHours(0,0,0,0);
+        date2.setHours(0,0,0,0);
+
+        // One day in milliseconds
+        var oneDay = 1000 * 60 * 60 * 24;
+    
+        // Calculating the time difference between two dates
+        var diffInTime = date2.getTime() - date1.getTime();
+    
+        // Calculating the no. of days between two dates
+        var diffInDays = Math.round(diffInTime / oneDay);
+    
+        return diffInDays;
+
+    },
+
+    setEventDates : function(){
+        
+        date = new Date($('#eventdate').val())
+        date.setDate(date.getDate() - 2);
+        $('#cutoff').val(date.toISOString().split('T')[0]);
+        date.setDate(date.getDate() - 2);
+        $('#regend').val(date.toISOString().split('T')[0]);
+        date.setDate(date.getDate() - 7);
+        $('#regstart').val(date.toISOString().split('T')[0]);
+
     }
-
-
 
 
 }
