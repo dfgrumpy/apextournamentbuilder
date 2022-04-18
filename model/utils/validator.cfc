@@ -22,6 +22,9 @@ component accessors="true" hint="utility for validating data"
 			case "string":
 				return isSimpleValue(arguments.source);
 				break;
+			case "text":
+				return isSimpleValue(arguments.source);
+				break;
 			default:
 				return isValid(arguments.expected, arguments.source);
 		}
@@ -31,7 +34,7 @@ component accessors="true" hint="utility for validating data"
 	public string function canRenderReturn(required any returnType) hint="validates that fw/1 renderData() can return requested type"
 	{
 	
-		var allowedReturns = 'json,string,xml';
+		var allowedReturns = 'json,string,xml,text';
 		
 		return listfindnocase(allowedReturns, arguments.returnType);
 	}

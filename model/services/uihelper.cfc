@@ -245,6 +245,16 @@ component accessors="true" extends="model.base.baseget"    {
 	}
 	
 
+	public string function buildInfoString(tournament){
+
+		var thisTourney = arguments.tournament;
+		var tname = thisTourney.gettournamentname();
+		var tdate = dateTimeFormatter(thisTourney.geteventdate());
+		var tzone = listFirst(thisTourney.gettimezone(), " ");
+		var tlink = "#getBaseURL()#/t/#thistourney.getviewkeyShort()#"
+		return '#tname# is on #tdate# #tzone#.  Registration Ends in #getDaysToRegClose(thisTourney)# days. There are currently #thistourney.getplayer().len()# players registered.  Register here: #tlink#';
+
+	}
 
 
 }

@@ -8,7 +8,7 @@
 	<cfset rc.errorguid = '7A0CE683-9999-ZZZZ-85496DBAD49F06E0'>
 </CFIF>
 
-<cfif cgi.SERVER_NAME contains "localll">
+<cfif cgi.SERVER_NAME contains "local">
 	<displaypanels:errordump hidedisplay="false" />
 <cfelse>
 	<div class="container">

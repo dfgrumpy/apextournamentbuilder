@@ -14,7 +14,7 @@
 <cfoutput>
 		
 	<!--- courtesy of Andreas Schuldhaus --->
-	<div id="errorDumpDiv" style="border: 2px dotted red; padding: 10px;" <cfif attributes.hidedisplay>class="visually-hidden"</cfif>>
+	<div id="errorDumpDiv" style="border: 2px solid red; padding: 10px;" <cfif attributes.hidedisplay>class="visually-hidden"</cfif>>
 		<h1 style="color: red;">ERROR!</h1>
 		<div style="width: 100%; text-align: left;">
 			<cfoutput>
