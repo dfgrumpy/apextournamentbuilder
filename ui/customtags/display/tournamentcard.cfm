@@ -305,6 +305,14 @@
                                         #attributes.rc.uihelper.getBaseURL()#/t/#thistourney.getadminkeyShort()#                                    
                                     </div>
                                 </div>
+                                <div class="row mt-3">
+                                    <div class="col-6">
+                                        Nightbot Command:
+                                    </div>
+                                    <div class="col-12 text-left mt-2">
+                                        !addcom !tourney $(urlfetch #attributes.rc.uihelper.getBaseURL()#/remote/mytournament/t/#thistourney.getadminkeyShort()#)
+                                    </div>
+                                </div>
                             </cfif>
                         </div>
                     </div>
