@@ -114,7 +114,7 @@ component accessors="true" {
 		}
         catch(Any e){ 
 		}
-
+	
 		variables.fw.setLayout('error');
 
 	}
