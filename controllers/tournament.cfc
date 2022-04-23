@@ -10,6 +10,7 @@ component accessors="true" extends="base" {
 	property playerService;
 	property matchmakerService;
 	property emailService;
+	property utilsService;
 	
 
 	public void function view( rc ){
@@ -321,11 +322,19 @@ component accessors="true" extends="base" {
 		rc.players = getPlayerService().getPlayerByTeam(5,4);
 
 
-
-
 	}
 
 
+	public void function export( rc ) {
+		// can user manage this tournament?
+		if (! getSecurityService().canUserManageTournament(rc.tournament)){
+			variables.fw.redirect('main');
+		}
 
+
+		rc.tournament = getTournamentService().getTournamentByKey(rc.tournament);
+		rc.exportname = getutilsService().localSanitizeFileName('#rc.tournament.gettournamentname()#_export.xls');
+
+	}
 
 }
