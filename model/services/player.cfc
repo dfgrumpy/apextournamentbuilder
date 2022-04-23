@@ -60,8 +60,8 @@ component accessors="true" hint="for player items" extends="model.base.baseget" 
 		thisPlayer.settwitch( arguments.data.twitch ); 
 		thisPlayer.setPlatform( arguments.data.Platform );
 		thisPlayer.setPlayerRank( arguments.data.PLAYERRANK );
-		thisPlayer.setLevel( arguments.data.Level );
-		thisPlayer.setKills( arguments.data.Kills );
+		thisPlayer.setLevel(  isNumeric(arguments.data.Level) ? arguments.data.Level:0 );
+		thisPlayer.setKills(  isNumeric(arguments.data.Kills) ? arguments.data.Kills:0 );
 		thisPlayer.setOriginname( arguments.data.Originname );
 		thisPlayer.setStreaming( arguments.data.Streaming ); 
 		thisPlayer.setAlternate( arguments.data.alternate ); 
@@ -99,8 +99,8 @@ component accessors="true" hint="for player items" extends="model.base.baseget" 
 			'twitch' : arguments.data.twitch ,
 			'Platform' : arguments.data.Platform,
 			'Playerrank' : arguments.data.playerrank,
-			'Level' : arguments.data.Level,
-			'Kills' : arguments.data.Kills,
+			'Level' : isNumeric(arguments.data.Level) ? arguments.data.level:0,
+			'Kills' : isNumeric(arguments.data.Kills) ? arguments.data.Kills:0,
 			'Originname' : arguments.data.Originname,
 			'Streaming' : arguments.data.Streaming,
 			'alternate' : arguments.data?.alternate ?: 0,
