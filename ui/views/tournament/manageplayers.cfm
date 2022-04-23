@@ -116,6 +116,11 @@
         </cfif>
         <th scope="col" class="text-center">Streaming</th>
         <td class="text-end" data-orderable="false">
+            <cfif  rc.tournament.hasplayer()>
+                <a href="<cfoutput>#buildurl('tournament.export/tournament/#rc.tournament.getid()#')#</cfoutput>" target="_blank" type="button" class="btn btn-sm btn-primary playerExportBtn" data-tournamentid="<cfoutput>#rc.tournament.getid()#</cfoutput>"  data-bs-toggle="tooltip" data-bs-placement="top" title="Export Players">
+                    <i class="bi bi-cloud-download-fill"></i>
+                </a>
+            </cfif>
             <cfif rc.tournament.getType().getHasTeams() || rc.tournament.getTeamSize() gt 1>
                 <a href="<cfoutput>#buildurl('tournament.teamsoverview/tournament/#rc.tournament.getid()#')#</cfoutput>" class="btn btn-sm btn-primary teamAdminBtn"  data-bs-toggle="tooltip" data-bs-placement="top" data-bs-toggle="tooltip" data-bs-placement="top" title="Manage tournament teams">                  
                     <i class="bi bi-people-fill"></i>
