@@ -398,6 +398,10 @@ eventsNS = {
 			$('.playerdetailBtn').on('click', function (e) {
 				siteAjax.loadModalContent('playeredit/playerid/' + $(this).data('playerid'), 'Player Edit : ' + $(this).data('playername'));
 			});
+			$('.playerInfoBtn').on('click', function (e) {
+				siteAjax.loadModalContent('playerdetail/playerid/' + $(this).data('playerid'), 'Player Details : ' + $(this).data('playername'));
+				uiNS.showModalCloseFooter(1);
+			});
 
 			$('.playerAddBtn').on('click', function (e) {
 				siteAjax.loadModalContent('playernew/tournamentid/' + $(this).data('tournamentid'), 'Add New Player');

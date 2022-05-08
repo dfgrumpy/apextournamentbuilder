@@ -173,6 +173,9 @@ tourneyNS = {
 				}
 
 				$('.teamDetailList').scrollTop(0);		
+				try {
+					$('.teamDetailListBtn')[0].click();
+				} catch (e) {   }
 			} else {
 				uiNS.displayNotification('danger', 'There was an error approving the team.');					
 			}
@@ -195,6 +198,9 @@ tourneyNS = {
 				$('#playerCountApproved').text(parseInt($('#playerCountApproved').text())+1);	
 
 				$('.teamDetailList').scrollTop(0);		
+				try {
+					$('.teamDetailListBtn')[0].click();
+				} catch (e) {   }
 			} else {
 				uiNS.displayNotification('danger', 'There was an error updating the player.');					
 			}
@@ -218,6 +224,9 @@ tourneyNS = {
 				$('#approvalHDRCount').text($('#approvalHDRCount').text()-1);
 				$('#teamcountunapproved').text($('#teamcountunapproved').text()-1);			
 				$('.teamDetailList').scrollTop(0);
+				try {
+					$('.teamDetailListBtn')[0].click();
+				} catch (e) {   }
 			} else {
 				uiNS.displayNotification('danger', 'There was an error processing the team.');					
 			}
@@ -241,6 +250,9 @@ tourneyNS = {
 				$('#playerCountRejected').text(parseInt($('#playerCountRejected').text())+1);	
 
 				$('.teamDetailList').scrollTop(0);		
+				try {
+					$('.teamDetailListBtn')[0].click();
+				} catch (e) {   }
 			} else {
 				uiNS.displayNotification('danger', 'There was an error updating the player.');					
 			}
@@ -282,6 +294,10 @@ tourneyNS = {
 
 
 				$('.teamDetailList').scrollTop(0);
+
+				try {
+					$('.teamDetailListBtn')[0].click();
+				} catch (e) {   }
 			} else {
 				uiNS.displayNotification('danger', 'There was an error processing the team.');					
 			}
@@ -312,6 +328,9 @@ tourneyNS = {
 				}
 
 				$('.teamDetailList').scrollTop(0);		
+				try {
+					$('.teamDetailListBtn')[0].click();
+				} catch (e) {   }
 			} else {
 				uiNS.displayNotification('danger', 'There was an error updating the player.');					
 			}

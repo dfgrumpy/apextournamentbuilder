@@ -12,9 +12,15 @@ component accessors="true" hint="for team items" extends="model.base.baseget"   
 
 
 
-	public any function getPlayerFromFormFields( required data, required number playernum = 1 ) {
-
+	public any function getPlayerFromFormFields( required data, required any playernum = 1 ) {
+	
 		num = arguments.playernum;
+		customdata = [];
+
+		if  (arguments.data.tournament.hasCustomConfig()){
+			customdata = getPlayerCustomFromData(arguments.data, num);
+		}
+
 		var player = {
 			'playername' : arguments.data.keyExists('playername_#num#') ? arguments.data['playername_#num#'] : '',
 			'platform' : arguments.data.keyExists('platform_#num#') ? arguments.data['platform_#num#'] :'',
@@ -33,6 +39,10 @@ component accessors="true" hint="for team items" extends="model.base.baseget"   
 			'approved' : 0
 		};
 
+
+		if (customdata.len()) {
+			player.customdata = customdata;
+		}
 
 		return player;
 
@@ -180,5 +190,137 @@ component accessors="true" hint="for team items" extends="model.base.baseget"   
 		}
 		return local.response;
 	}
+
+
+	/**
+	 * queryToCsv
+	 * Allows us to pass in a query object and returns that data as a CSV.
+	 * This is a refactor of Ben Nadel's method, http://www.bennadel.com/blog/1239-Updated-Converting-A-ColdFusion-Query-To-CSV-Using-QueryToCSV-.htm
+	 * @param  {Query} 		q 				{required}	The cf query object to convert. E.g. pass in: qry.execute().getResult();
+	 * @param  {Boolean} 	hr 				{required}	True if we should include a header row in our CSV, defaults to TRUE
+	 * @param  {String} 	d 		 		{required}	Delimiter to use in CSV, defaults to a comma (,)
+	 * @return {String}          								CSV content
+	 */
+	public string function queryToCsv(required query q, required boolean hr = true, required string d = ",", required string cols = ''){
+		
+		if (arguments.cols.len()) {
+			var colNames	= listToArray( arguments.cols );
+		} else {
+			var colNames	= listToArray( lCase(arguments.q.columnlist) );
+		}
+		var	newLine 	= (chr(13) & chr(10));
+		var	buffer 		= CreateObject('java','java.lang.StringBuffer').Init();
+
+		// Check if we should include a header row
+		if(arguments.hr){
+			// append our header row 
+			buffer.append( 
+			  ArrayToList(colNames,arguments.d) & newLine
+			);
+
+		}
+
+		// Loop over query and build csv rows
+		for(var i=1; i <= arguments.q.recordcount; i=i+1){
+
+			// this individual row
+			var thisRow = [];
+
+			// loop over column list
+			for(var j=1; j <= arrayLen(colNames); j=j+1){
+
+				// create our row
+				thisRow[j] = replace( replace( arguments.q[colNames[j]][i],',','','all'),'""','""""','all' );
+
+			}
+
+			// Append new row to csv output
+			buffer.append(
+				JavaCast( 'string', ( ArrayToList( thisRow, arguments.d ) & iif(i < arguments.q.recordcount, "newLine","") ) )
+			);
+		}
+
+		return buffer.toString();
+
+	};
+
+
+	public any function getCustomFromData(required any tourneydata){
+		var tdata = arguments.tourneydata;
+		var result = [];
+		var idx = 1;
+		for (i = 1; i <= 3; i++){
+			item = 'CUSTOMLABEL_#i#';
+			if ( (structKeyExists(tdata, item) && structKeyExists(tdata, "CUSTOMTYPE_#i#")) ||  structKeyExists(tdata, "customrow_#i#") ){
+				result[idx] = {
+					'type': structKeyExists(tdata, "CUSTOMTYPE_#i#") ? tdata['CUSTOMTYPE_#i#'] : '',
+					'label': structKeyExists(tdata, "CUSTOMLABEL_#i#") ? tdata['CUSTOMLABEL_#i#'] : '',
+					'values':structKeyExists(tdata, "CUSTOMVALUES_#i#") ? tdata['CUSTOMVALUES_#i#'] : '',
+					'required': structKeyExists(tdata, "CUSTOMREQUIRED_#i#") ? 1:0,
+					'rowid': structKeyExists(tdata, "customrow_#i#") ? tdata['customrow_#i#']:0,
+					'delete': structKeyExists(tdata, "customdelete_#i#") ? 1:0
+					
+			 	}
+			 	idx++;
+			}
+		}
+		return result;
+
+	}
+	
+
+
+
+
+	public any function getPlayerCustomFromData( required data, required any playernum = 1 ) {
+		
+		var thisTourney = arguments.data.tournament;
+
+		var config = thisTourney.getCustomConfig();
+		var thisVal = '';
+		var idx = 1;
+		for (conf in config) {
+
+			field = "customfield_#conf.getid()#_#arguments.playernum#";
+
+			if (structKeyExists(data, field)) {
+				thisVal =  data['#field#']
+			} else {
+				if (conf.getType() eq 3){
+					thisVal = 0;
+				}
+			}
+
+
+			items[idx] = {'parentid' : conf.getid(),
+					'value' : thisVal,
+					'type' : conf.gettype()
+			}
+
+	
+			idx++;
+		}
+
+		return items;
+
+	}
+
+
+	public any function getPlayerCustomFromEdit( required data, required any playernum = 1 ) {
+
+		var counter = 1;
+		var customVals = [];
+		for (item in arguments.data) {
+			if (item contains "customfield_") {
+				customVals[counter] = {'parentid': item.listlast("_"), 'value' : arguments.data['#item#']};
+				counter++;
+			}
+		}
+	
+		return customVals;
+
+	}
+	
+
 
 }			

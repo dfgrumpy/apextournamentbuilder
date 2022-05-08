@@ -29,18 +29,21 @@ component accessors="true"    {
 	}
 
 	public any function findkeyInURL( data ) {
-		var thisUrl = arguments.data;
-		var thisKey = [];
-		 // By listEach() 
-		 for (item in listToArray(thisUrl.keyList(), ",")) { 
-			thisKey = rematch('^[a-zA-Z0-9]{15}$', item);
-			if (thisKey.len()) {
-				break;
-			}
-		} 
+		
+		return arguments.data.path_info.listlast('/')
+	
+
+		// var thisKey = [];
+		//  // By listEach() 
+		//  for (item in listToArray(thisUrl.keyList(), ",")) { 
+		// 	thisKey = rematch('^[a-zA-Z0-9]{15}$', item);
+		// 	if (thisKey.len()) {
+		// 		break;
+		// 	}
+		// } 
 
 
-		return thisKey;
+		// return thisKey;
 
 	}
 

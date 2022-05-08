@@ -9,6 +9,7 @@ component accessors="true" hint="for tournament items" extends="model.base.baseg
 	property teamsService;
 	property playerService;
 	property emailService;
+	property customfields;
 
 	public any function getTournamentsForOwner(){
 		return entityload("tournament", {owner=getSessionService().getloginuser()});
@@ -63,6 +64,9 @@ component accessors="true" hint="for tournament items" extends="model.base.baseg
 		var adminkey = getSecurityService().generateKey();
 		var viewkey = getSecurityService().generateKey();
 
+		var customFields = getUtilsService().getCustomFromData(tdata);
+				
+
 		var tourneyStruct = {
 			'tournamentname': tdata.tourneyname,
 			'contactemail' : tdata.contactemail,
@@ -95,6 +99,14 @@ component accessors="true" hint="for tournament items" extends="model.base.baseg
 		var thisTourney = entityNew("tournament", tourneyStruct);
 		entitysave(thisTourney);
 		ormflush();
+
+		// save custom fields
+		if (arrayLen(customFields)) {
+			getcustomfields().saveCustomFields(customFields ,thisTourney);
+			ormflush();
+		}
+	
+
 
 	}
 
@@ -167,8 +179,18 @@ component accessors="true" hint="for tournament items" extends="model.base.baseg
 
 		thisTourney.settype( entityLoadByPK('tournamenttype', tdata.tourneytype ));
     
-		entitysave(thisTourney);
+		//entitysave(thisTourney);
 
+
+		var customFields = getUtilsService().getCustomFromData(tdata);
+
+
+		// save custom fields
+		if (arrayLen(customFields)) {
+			getcustomfields().updateCustomFields(customFields,thisTourney);
+			ormflush();
+		}
+	
 		if ( tdata.keyExists('linkreset') ) {
 			regenerateKeys(thisTourney);
 		}	
@@ -277,9 +299,12 @@ component accessors="true" hint="for tournament items" extends="model.base.baseg
 		var alternateReg = data?.alternate ?: 0;
 		var thisTeam = 0;
 
+
 		// extract players from rc and validate
 		for (var i = 1; i <= thistourney.getteamsize(); i++ ){
+			
 			pdata = getutilsService().getPlayerFromFormFields(arguments.data, i);
+
 			if (!pdata.playername.len()) {
 				continue; // no name for player.. skip.
 			}
@@ -298,7 +323,6 @@ component accessors="true" hint="for tournament items" extends="model.base.baseg
 			}
 						
 		}
-
 		// error checks passed. Save team and player.
 		if (nosaveteam.isempty()) {
 			if (arguments.data.keyExists('teamname') && arguments.data.teamname.len()) {
@@ -313,6 +337,7 @@ component accessors="true" hint="for tournament items" extends="model.base.baseg
 				}
 		
 			} 
+
 
 			for (var z = 1; z <= player.len(); z++ ){
 				if (z == 1) {
@@ -332,7 +357,6 @@ component accessors="true" hint="for tournament items" extends="model.base.baseg
 			}
 
 		}
-		
 		// debug only to remove tourney object from array
 		for (var j = 1; j lte player.len(); j++ ){
 			player[j].tournament = '';

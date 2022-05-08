@@ -6,6 +6,7 @@ component accessors="true" extends="base"       {
 	property teamsService;
 	property matchmakerService;
 	property userService;
+	property utilsService;
 
 	public any function before( rc ) {
 		super.before(rc);
@@ -74,6 +75,7 @@ component accessors="true" extends="base"       {
 			
 
 		} else if (structKeyExists(rc, 'item') && rc.item == 'playeredit'){
+			
 			var playerdata = {
 				playerid: getsessionservice().geteditplayerid(),
 				playername: rc.playername,
@@ -86,7 +88,8 @@ component accessors="true" extends="base"       {
 				Kills: rc.Kills,
 				Originname: rc.Originname,
 				Streaming: rc?.Streaming ?: 0,
-				alternate: rc?.alternate ?: 0
+				alternate: rc?.alternate ?: 0,
+				customdata = getutilsService().getPlayerCustomFromEdit(rc, 1)
 			};
 			getplayerService().savePlayerEdit(playerdata);
 			rc.RETURNDATA = true;
@@ -104,7 +107,8 @@ component accessors="true" extends="base"       {
 				Originname: rc.Originname,
 				Streaming: rc?.Streaming ?: 0,
 				tracker: rc?.trackerLoad ?: 0,
-				alternate: rc?.alternate ?: 0
+				alternate: rc?.alternate ?: 0,
+				customdata = getutilsService().getPlayerCustomFromEdit(rc, 1)
 			};
 			
 			var newplayer = getplayerService().saveNewPlayer(playerdata);

@@ -18,10 +18,9 @@ component persistent="true" object="player" extends="base" table="player" {
 	property name="invitekey" ormtype="string";
 	property name="tracker" ormtype="boolean" default="0";
 	
-
 	property name="tournament" fieldtype="many-to-one" cfc="tournament";  
-
 	property name="team" fieldtype="many-to-one" fkcolumn="teamid" cfc="team" lazy="true";
+	property name="customdata" fieldtype="one-to-many" cfc="customdata" fkcolumn="playerid" lazy="true" orderby="parentid";
 
 
 	public any function getTrackerPlatform(){

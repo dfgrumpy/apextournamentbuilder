@@ -144,11 +144,11 @@
             <cfoutput>
                 <tr>
                     <th scope="row">#counter#</th>
-                    <td>
+                    <td data-order="#item.getgamername()#">
                         <cfif item.getAlternate()>
                             <i class="bi bi-brightness-low-fill text-warning fs-6" style="height: 25px;"></i>
                         </cfif>    
-                        #item.getgamername()#
+                       <span type="button"  class="playerInfoBtn" data-playerid="#item.getid()#" data-playername="#item.getgamername()#">#item.getgamername()#</span>
                     </td>
                     <td class="text-center" data-order="#rc.uihelper.apexRankToSort(item.getPlayerRank())#">
                         <cfset rank = rc.uihelper.apexRankToIcon(item.getPlayerRank())>

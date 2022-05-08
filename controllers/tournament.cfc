@@ -15,24 +15,25 @@ component accessors="true" extends="base" {
 
 	public void function view( rc ){
 
-		var foundkey = findkeyInURL( rc );
+		var foundkey = findkeyInURL( cgi );
 
 
 		if (!foundkey.len()){ 
 			variables.fw.redirect('main');
 		}
 
-		rc.viewtype = rc['#foundkey[1]#'].len() ? rc['#foundkey[1]#'] : 'detail';
-		rc.foundkey = foundkey[1];
-		rc.tournament = getTournamentService().getTournamentByAccessKey(foundkey[1]);
+		rc.foundkey = foundkey;
+
+		rc.viewtype = rc['#foundkey#'].len() ? rc['#foundkey#'] : 'detail';
+		rc.tournament = getTournamentService().getTournamentByAccessKey(rc.foundkey);
 
 
 
-		if (rc.tournament.getadminkey() eq foundkey[1]) {
+		if (rc.tournament.getadminkey() eq rc.foundkey) {
 			getsessionservice().setpublicAcessType(3);
-		} else if (rc.tournament.getregistrationkey() eq foundkey[1]) {
+		} else if (rc.tournament.getregistrationkey() eq rc.foundkey) {
 			getsessionservice().setpublicAcessType(2);
-		} else if (rc.tournament.getviewkey() eq foundkey[1]) {
+		} else if (rc.tournament.getviewkey() eq rc.foundkey) {
 			getsessionservice().setpublicAcessType(1);
 		}
 		getsessionservice().setAnonTournamentID(rc.tournament.getid());
@@ -49,16 +50,17 @@ component accessors="true" extends="base" {
 
 	public void function register( rc ) {
 
+		var foundkey = findkeyInURL( cgi );
 
 
-		var foundkey = findkeyInURL( rc );
-
+		
 		if (!foundkey.len()){ 
 			variables.fw.redirect('main');
 		}
-
-		rc.foundkey = foundkey[1];
-		rc.tournament = getTournamentService().getTournamentByAccessKey(foundkey[1]);
+		//rc.foundkey = foundkey[1];
+		rc.foundkey = foundkey;
+			
+		rc.tournament = getTournamentService().getTournamentByAccessKey(rc.foundkey);
 
 		if (rc.keyexists('processregistration')) {
 
@@ -90,14 +92,14 @@ component accessors="true" extends="base" {
 
 	public void function registerdone( rc ) {
 
-		var foundkey = findkeyInURL( rc );
+		var foundkey = findkeyInURL( cgi );
 
 		if (!foundkey.len()){ 
 			variables.fw.redirect('main');
 		}
 
-		rc.foundkey = foundkey[1];
-		rc.tournament = getTournamentService().getTournamentByAccessKey(foundkey[1]);
+		rc.foundkey = foundkey;
+		rc.tournament = getTournamentService().getTournamentByAccessKey(rc.foundkey);
 
 		rc.canregisterpc = getTournamentService().isRegOpenPlayerCount(rc.tournament);
 		rc.canregisterdate = getTournamentService().isRegOpenToday(rc.tournament);
@@ -333,7 +335,12 @@ component accessors="true" extends="base" {
 
 
 		rc.tournament = getTournamentService().getTournamentByKey(rc.tournament);
-		rc.exportname = getutilsService().localSanitizeFileName('#rc.tournament.gettournamentname()#_export.xls');
+		rc.exportname = getutilsService().localSanitizeFileName('#rc.tournament.gettournamentname()#_export.csv');
+
+		var exportQuery = entityToQuery(rc.tournament.getplayer());
+		var cols = 'gamername,originname,email,platform,playerrank,twitch,twitter,discord,kills,level,streaming,approved,alternate,created,updated';
+		rc.exprotData = getutilsService().queryToCsv(exportQuery, true, ',', cols)
+	
 
 	}
 

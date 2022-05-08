@@ -24,6 +24,7 @@ component persistent="true" object="tournament" extends="base" table="tournament
 	property name="owner" fieldtype="many-to-one" cfc="user" lazy="true";  
 
 	property name="type" fieldtype="many-to-one" fkcolumn="tournamenttypeid" cfc="tournamenttype";
+	property name="customconfig" fieldtype="one-to-many" cfc="customconfig" fkcolumn="tournamentid" lazy="true";
 
 
 	public any function countStreamersForTournament(){

@@ -73,9 +73,13 @@
                         </div>
                     </div>
                     <div class="row">
+                        <cfset customfields = rc.tournament.hasCustomConfig()>
                         <cfloop index="i" from="1" to="#rc.tournament.getteamsize()#">
                             <div class="col">                       
-                                <displays:playerreg rc="#rc#" playernumber="#i#"/>
+                                <displays:playerreg rc="#rc#" playernumber="#i#" teamsize="#rc.tournament.getteamsize()#" individual="#rc.tournament.getindividual()#"/>
+                                <cfif customfields>
+                                    <displays:playerregcustom rc="#rc#" playernumber="#i#" teamsize="#rc.tournament.getteamsize()#" individual="#rc.tournament.getindividual()#"/>
+                                </cfif>
                             </div>
                         </cfloop>
                     </div>
