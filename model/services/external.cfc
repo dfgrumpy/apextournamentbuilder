@@ -6,7 +6,8 @@ component {
 		cfhttp(method="GET", charset="utf-8", url="https://www.purgomalum.com/service/containsprofanity", result="result") {
 			cfhttpparam(name="text", type="url", value="#arguments.data#");
 		}
-		if (result.status_code eq 200) {
+
+		if (result.Responseheader.Status_code eq 200) {
 			return result.filecontent;
 		}
 

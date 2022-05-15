@@ -133,6 +133,61 @@
                 </div>
             </div>
 
+            <div class="row g-3">
+                <div class="col-md-12 ">
+
+                    <div class="accordion accordion-flush" id="accordionFlushExample">
+                        <div class="accordion-item">
+                          <h2 class="accordion-header" id="flush-headingOne">
+                            <button class="accordion-button collapsed btn-info" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                              Custom Fields
+                            </button>
+                          </h2>
+                          <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                            <div class="accordion-body" style="padding-left: 0; padding-right: 0;">
+                                <table class="table table-sm">
+                                    <thead>
+                                        <tr>                                          
+                                            <th scope="col" style="width: 20px;"></th>
+                                            <th scope="col" style="width: 125px;">Type</th>
+                                            <th scope="col" style="width: 225px;">Label</th>
+                                            <th scope="col">Values</th>
+                                            <th scope="col" style="width: 50px;">Required</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        <cfloop index="i" from="1" to="3"><cfoutput>
+                                            <tr>
+                                            <th scope="row">#i#</th>
+                                            <td>
+                                                <select class="form-select" aria-label=".form-select-lg example" id="customtype_#i#" name="customtype_#i#">
+                                                    <option selected disabled value=""></option>
+                                                    <option value="1">Text</option>
+                                                    <option value="2">Select</option>
+                                                    <option value="3">Yes/No</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" id="customlabel_#i#" name="customlabel_#i#">
+                                            </td>
+                                            <td>                                            
+                                                <input type="text" class="form-control" id="customvalues_#i#" name="customvalues_#i#">
+                                            </td>
+                                            <td>
+                                                <input class="toggleControl" data-height="50" type="checkbox" value="1" data-toggle="toggle"  data-style="quick" data-on="<i class='bi bi-check-lg'></i>" data-off="<i class='bi bi-x-lg'></i>" data-onstyle="success" data-offstyle="danger" data-width="100%"  name="customrequired_#i#" id="customrequired_#i#">
+                                            </td>
+                                            </tr></cfoutput>
+                                        </cfloop>
+                                      </tbody>
+                                  </table>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                </div>
+            </div>
+            
             <div class="alert alert-dismissible alert-primary">
                 <div class="col-12 d-md-flex">
                     <div class="d-grid gap-2 col-6 mx-auto ">

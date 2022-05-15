@@ -1,5 +1,7 @@
 
 
+<cfimport prefix="displays" taglib="/ui/customtags/display">
+
 <cfoutput>
 	<form class="row g-3" data-form="playerdetail" id="modalForm" data-keyboard="true" data-backdrop="static"   autocomplete="off" novalidate>
         <input type="hidden" name="playerid" id="playerid" value="#rc.player.getid()#">
@@ -64,6 +66,20 @@
         <div class="col-md-6">
             <input <cfif rc.player.getAlternate()>checked</cfif> class="toggleControl" data-height="28" type="checkbox" value="1"  data-toggle="toggle"  data-style="slow" data-on="<i class='bi bi-x'></i>  Alternate" data-off="<i class='bi bi-check'></i> Not Alternate" data-onstyle="danger  py-1 " data-offstyle="success py-1" data-width="100%"  name="alternate" id="alternate">
         </div>
+
+
+
+        <cfset rc.tournament = rc.player.getTournament()>
+        <cfif rc.tournament.hasCustomConfig()>
+            <div class="col-md-12">   
+                <div class="col-md-12">
+                    <div class="progress mt-2"  style="padding: 0; height: 2px;">
+                        <div class="progress-bar bg-info" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>  
+                </div>
+                <displays:playerregcustomedit rc="#rc#" playernumber="1" teamsize="1" individual="1"/>
+            </div>
+        </cfif>
 
         <!--- This button is here to js can force browser validation --->
         <button class="btn btn-primary visually-hidden" id="forceValidationBtn" type="submit" ></button>

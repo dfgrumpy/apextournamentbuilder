@@ -7,6 +7,7 @@ component accessors="true" hint="for player items" extends="model.base.baseget" 
 	property apexaipService;
 	property tournamentService;
 	property notificationService;
+	property customFieldsService;
 	
 	public any function getPlayerByKey(required numeric playerid){
 		return entityLoadByPK('player', arguments.playerid);
@@ -69,6 +70,10 @@ component accessors="true" hint="for player items" extends="model.base.baseget" 
 		entitysave(thisPlayer);
 		ormflush();
 		
+
+
+		getcustomFieldsService().savePlayerCustomDataEdit(arguments.data.customdata, thisPlayer);
+
 		return thisPlayer;
 		
 
@@ -110,8 +115,15 @@ component accessors="true" hint="for player items" extends="model.base.baseget" 
 		
 				
 		var player = entitynew("player", thisdata);
+
 		entitysave(player);
 		ormflush();
+
+		// save custom data
+		getcustomFieldsService().savePlayerCustomData(arguments.data, player);
+
+		
+		// get tracker data and save
 		if (arguments.data.tracker){
 			try {
 				getTrackerData(player);

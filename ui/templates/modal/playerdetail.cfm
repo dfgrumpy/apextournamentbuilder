@@ -48,23 +48,33 @@
                     <td>Streaming</td>
                     <td>#YesNoFormat(rc.player.getStreaming())#</td>
                   </tr>
+                  <cfif rc.player.hasCustomData()>
+                    <tr class="table-secondary">
+                      <td colspan="2">Custom Data</td>
+                    </tr>
+                  </cfif>
+                  <cfloop array="#rc.player.getCustomData()#" item="item">
+                    <tr>
+                      <td>#item.getConfig().getlabel()#</td>
+                      <td>
+                        <cfif item.getConfig().getType() eq 3>
+                          #YesNoFormat(item.getValue())#
+                        <cfelse>
+                          #item.getValue()#
+                        </cfif>
+                      </td>
+                    </tr>
+                  </cfloop>
+
                 </tbody>
               </table>
             </div>
         
         </div>
-     
+
+        
+
 </cfoutput>
 
-<script>
 
-    $(function () {
-        $('#showorigin').mouseover(function () {
-            $('#Originname').attr('type', 'text');
-        });
-        
-        $('#showorigin').mouseout(function () {
-            $('#Originname').attr('type', 'password');
-        });
-    });
-</script>
+

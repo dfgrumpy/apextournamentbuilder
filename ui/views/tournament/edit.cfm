@@ -128,16 +128,23 @@
                           <textarea class="form-control summernote" id="exampleFormControlTextarea2" rows="5" id="tourneyrules" name="tourneyrules">#rc.tournament.getrules()#</textarea>
                       </div>
                   </div>
-      
+
+                  <cfif rc.tournament.hasCustomConfig()>      
+                    <div class="row g-3">
+                        <div class="col-md-12 ">                            
+                            <fields:tournamentcustom fields="#rc.tournament.getCustomConfig()#" />       
+                        </div>
+                    </div>
+                </cfif>
                   <div class="row g-3">
                         <div class="col-md-3 pe-0 text-end">
 
-                        <div class="alert alert-secondary  pe-0 rounded-0 text-info">
-                                <input class="form-check-input" type="checkbox" value="1" id="linkreset" name="linkreset">
-                                <label class="form-check-label" for="linkreset">
-                                Reset URL Links
-                                </label>
-                        </div>
+                            <div class="alert alert-secondary  pe-0 rounded-0 text-info">
+                                    <input class="form-check-input" type="checkbox" value="1" id="linkreset" name="linkreset">
+                                    <label class="form-check-label" for="linkreset">
+                                    Reset URL Links
+                                    </label>
+                            </div>
                         </div>
                         <div class="col-md-9 ps-0">                            
                             <div class="alert alert-secondary  ps-0 rounded-0">

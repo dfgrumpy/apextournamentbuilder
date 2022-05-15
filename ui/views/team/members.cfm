@@ -62,6 +62,23 @@
                             <dd >#(thisplayer.gettwitch() neq "") ? thisplayer.gettwitch() : 'N/A'#</dd>
                             <dt class="text-warning">Streaming</dt>
                             <dd >#YesNoFormat(thisplayer.getStreaming())#</dd>
+
+
+                          <cfif thisplayer.hasCustomData()>
+                            <dt><h6 class="bg-light text-danger">Custom Data</h6></dt>
+                          </cfif>
+                          <cfloop array="#thisplayer.getCustomData()#" item="item">
+                            <cfif item.getValue().len()>
+                                <dt class="text-warning">#item.getConfig().getlabel()#</dt>
+                                <dd>
+                                    <cfif item.getConfig().getType() eq 3>
+                                        #YesNoFormat(item.getValue())#
+                                    <cfelse>
+                                        #item.getValue()#
+                                    </cfif>
+                                </dd>
+                            </cfif>
+                        </cfloop>
                         </dl>
                     </div>
                 </div>

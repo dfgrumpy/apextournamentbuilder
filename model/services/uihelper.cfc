@@ -77,7 +77,7 @@ component accessors="true" extends="model.base.baseget"    {
 			return replacenocase(ranks[rankid], " ", "_");
 		}
 
-		return arguments.rank;
+		return '';
 
 
 	}
@@ -252,7 +252,27 @@ component accessors="true" extends="model.base.baseget"    {
 		var tdate = dateTimeFormatter(thisTourney.geteventdate());
 		var tzone = listFirst(thisTourney.gettimezone(), " ");
 		var tlink = "#getBaseURL()#/t/#thistourney.getviewkeyShort()#"
-		return '#tname# is on #tdate# #tzone#.  Registration Ends in #getDaysToRegClose(thisTourney)# days. There are currently #thistourney.getplayer().len()# players registered.  Register here: #tlink#';
+
+		var countType = structkeyexists(url, 'count') ? url.count:'raw';
+
+		if (countType == 'raw') {
+			pcount = thistourney.getplayer().len();
+			tcount = thistourney.getteam().len();
+			tType = 'approved';
+		} else {
+			pcount = thistourney.countPlayersInTournament();
+			tcount = thistourney.filledTeamsForTournament();
+			tType = 'registered';
+		}
+
+
+		if (thistourney.getindividual()) {
+			countString = 'There are currently #pcount# players (#tcount# teams) #tType#.'
+		} else {
+			countString = 'There are currently #pcount# teams #tType#.'
+		}
+
+		return '#tname# tournament is on #tdate# #tzone#.  Registration Ends in #getDaysToRegClose(thisTourney)# days. #countString# Register here: #tlink#';
 
 	}
 

@@ -88,21 +88,24 @@ component accessors="true" hint="for email items" extends="model.base.baseget"  
 
 
 	public any function sendEmail(required string toAddress, required string emailSubject, required string emailBody) {
+		try {
+			mailService = new mail(
+				to = arguments.toAddress,
+				from = getconfigService().getDefaultOutboundEmail(),
+				subject = arguments.emailSubject,
+				body = arguments.emailBody,
+				server = getConfigService().getMailServer(),
+				port = getconfigService().getMailPort(),
+				username = getconfigService().getmailuser(),
+				password = getconfigService().getmailpass(),
+				type = 'html',
+				usetls = true
+				);
 
-		mailService = new mail(
-			to = arguments.toAddress,
-			from = getconfigService().getDefaultOutboundEmail(),
-			subject = arguments.emailSubject,
-			body = arguments.emailBody,
-			server = getConfigService().getMailServer(),
-			port = getconfigService().getMailPort(),
-			username = getconfigService().getmailuser(),
-			password = getconfigService().getmailpass(),
-			type = 'html',
-			usetls = true
-			);
-
-		mailService.send();
+			mailService.send();
+		} catch(Any e) {
+			
+		}
 	}
 
 	public any function sendForgotEmail(required model.cfc.user user) {

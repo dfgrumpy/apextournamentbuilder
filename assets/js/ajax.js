@@ -229,6 +229,10 @@ siteAjax = {
 				uiNS.displayNotification('success', 'Team has been deleted.');	
 				$(teamrow).remove();	
 				$('#teamContent').html('');	
+
+				try {
+					$('.teamDetailListBtn')[0].click();
+				} catch (e) {   }
 			} else {
 				uiNS.displayNotification('danger', 'There was an error deleting the team.');					
 			}

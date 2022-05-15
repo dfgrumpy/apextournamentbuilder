@@ -266,13 +266,13 @@
                                         Opens: 
                                     </div> 
                                     <div class="col">
-                                        #dateformat(thistourney.getregistrationstart(), 'M/D/yyyy')#
+                                        #dateformat(thistourney.getregistrationstart(), 'm/dd/yyyy')#
                                     </div>
                                     <div class="col text-end">
                                         Closes:
                                     </div>
                                     <div class="col">
-                                        #dateformat(thistourney.getregistrationend(), 'M/D/yyyy')#
+                                        #dateformat(thistourney.getregistrationend(), 'm/dd/yyyy')#
                                     </div>
 
                                     <cfif structKeyExists(session, 'loginuser') && thistourney.getallowlate()>
@@ -280,7 +280,7 @@
                                             Cutoff:
                                         </div>
                                         <div class="col">
-                                            #dateformat(thistourney.getregistrationcutoff(), 'M/D/yyyy')#
+                                            #dateformat(thistourney.getregistrationcutoff(), 'm/d/yyyy')#
                                         </div>
                                     </cfif>
                                 </div>
@@ -310,7 +310,7 @@
                                         Nightbot Command:
                                     </div>
                                     <div class="col-12 text-left mt-2">
-                                        !addcom !tourney $(urlfetch #attributes.rc.uihelper.getBaseURL()#/remote/mytournament/t/#thistourney.getadminkeyShort()#)
+                                        !addcom !tourney $(urlfetch #attributes.rc.uihelper.getBaseURL()#/remote/mytournament/t/#thistourney.getviewkeyShort()#)
                                     </div>
                                 </div>
                             </cfif>
