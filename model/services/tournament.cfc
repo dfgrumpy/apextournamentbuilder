@@ -179,8 +179,9 @@ component accessors="true" hint="for tournament items" extends="model.base.baseg
 
 		thisTourney.settype( entityLoadByPK('tournamenttype', tdata.tourneytype ));
     
-		//entitysave(thisTourney);
-
+		
+		entitysave(thisTourney);
+		ormflush();
 
 		var customFields = getUtilsService().getCustomFromData(tdata);
 
