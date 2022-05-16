@@ -2,8 +2,9 @@ component {
 	
 	public string function saveCustomFields( required array data, required any tournament ) {
 
-		for (item in arguments.data) {
 
+		for (item in arguments.data) {
+			try {
 			var customfield = {
 				'type' : item.type,
 				'label' : item.label,
@@ -14,6 +15,7 @@ component {
 	
 			var thisConfig = entityNew("customconfig", customfield);
 			entitysave(thisConfig);
+			} catch(any e){ }
 		}
 
 
