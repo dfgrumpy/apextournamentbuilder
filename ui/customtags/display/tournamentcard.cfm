@@ -119,7 +119,7 @@
                         <div class="row row-cols-2">
                             <div class="card rounded-3 shadow-sm text-white border-success m-1"  style="height: 145px; width: 145px;">
                                 <div class="card-body">
-                                    <h1 class="card-title pricing-card-title">#thistourney.countPlayersInTournament('all')#</h1>
+                                    <h1 class="card-title pricing-card-title">#thistourney.countPlayersInTournament('ALL', false)#</h1>
                                     <ul class="list-unstyled mt-3 mb-4">
                                     <li>Players Registered</li>
                                     </ul>
@@ -159,7 +159,11 @@
                                         </ul>
                                     </div>
                                 </div>
-                            </div>  
+                            </div>   
+                        <cfelse>
+                            <cfif thistourney.getid() eq 27>
+                                <img src='/assets/images/military_png2.jpg' width="250">    
+                            </cfif>
                         </cfif>
                     </div>
                     <div class="col col-8 text-white">
@@ -302,12 +306,12 @@
                                         Admin URL <i class="copyToClipboardBtn bi bi-clipboard-plus" type="button" data-clipboard="#attributes.rc.uihelper.getBaseURL()#/t/#thistourney.getadminkeyShort()#"></i>:
                                     </div>
                                     <div class="col-12 text-center mt-2">
-                                        #attributes.rc.uihelper.getBaseURL()#/t/#thistourney.getadminkeyShort()#                                    
+                                        <!--- #attributes.rc.uihelper.getBaseURL()#/t/#thistourney.getadminkeyShort()#                                     --->
                                     </div>
                                 </div>
                                 <div class="row mt-3">
                                     <div class="col-6">
-                                        Nightbot Command:
+                                        Chat Bot Command:
                                     </div>
                                     <div class="col-12 text-left mt-2">
                                         !addcom !tourney $(urlfetch #attributes.rc.uihelper.getBaseURL()#/remote/mytournament/t/#thistourney.getviewkeyShort()#)

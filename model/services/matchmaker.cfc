@@ -12,7 +12,7 @@ component accessors="true" hint="for team/player items" extends="model.base.base
 
 
 
-	public void function teammatchmaking( data, tournamentid ) {
+	public any function teammatchmaking( data, tournamentid ) {
 
         data = {
             'filltype': arguments.data.filltype,
@@ -39,7 +39,7 @@ component accessors="true" hint="for team/player items" extends="model.base.base
 			result = fillteamsFullRankGroup(rc.tournament);
 		}
 
-        return 1;
+        return true;
 	}
 
 
@@ -63,7 +63,10 @@ component accessors="true" hint="for team/player items" extends="model.base.base
         // get list of players needing teams by rank
         // find team without that rank, if not any random
 
-        var ranks = getConfigService().getapexranks().listtoarray().reverse();
+        var ranks = getConfigService().getapexranks().listtoarray();
+        createObject("java", "java.util.Collections").reverse(ranks);
+
+
         var thisTourney = arguments.tournament;
 
         ranks.each(function(item, idx){
@@ -93,10 +96,13 @@ component accessors="true" hint="for team/player items" extends="model.base.base
         // get list of players needing teams by rank
         // find team without that rank, if not any random
 
-        var ranks = getConfigService().getapexrankgroups();
+        var ranks = listtoArray(getConfigService().getapexrankgroups(), "||");
+        ranks = {'A': ranks[1],'B': ranks[2],'C': ranks[3]};
+
         var thisTourney = arguments.tournament;
 
         ranks.each(function(item, idx){
+            
             group = ListQualify(ranks[item], "'", ",", "ALL");
             playerlist = getRandomAvailablePlayersRankGroup(thisTourney.getid(), group); // get players in rank without team
             
@@ -105,7 +111,7 @@ component accessors="true" hint="for team/player items" extends="model.base.base
                 getteamsService().updateTeamPlayer(player.id, randteam, 1, thisTourney.getid()); // updateplayer
             }
 
-        });
+        }); 
         // unranked players are used to fill teams up after all ranked players are distributed
         playerlist = getRandomAvailablePlayersUnranked(thisTourney.getid()); // get players in rank without team
         
