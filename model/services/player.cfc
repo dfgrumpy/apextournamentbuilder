@@ -108,9 +108,9 @@ component accessors="true" hint="for player items" extends="model.base.baseget" 
 			'Kills' : isNumeric(arguments.data.Kills) ? arguments.data.Kills:0,
 			'Originname' : arguments.data.Originname,
 			'Streaming' : arguments.data.Streaming,
-			'alternate' : arguments.data?.alternate ?: 0,
-			'approved' : arguments.data?.approved ?: 1,
-			'email' : arguments.data?.playeremail ?: ''
+			'alternate' : structkeyExists(arguments.data, 'alternate') ? arguments.data.alternate: 0,
+			'approved' : structkeyExists(arguments.data, 'approved') ? arguments.data.approved: 1,
+			'email' : structkeyExists(arguments.data, 'playeremail') ? arguments.data.playeremail: ''
 		};
 		
 				

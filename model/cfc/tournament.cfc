@@ -15,6 +15,7 @@ component persistent="true" object="tournament" extends="base" table="tournament
 	property name="lockonfull" ormtype="boolean" default="0";
 	property name="registrationenabled" ormtype="boolean" default="1";
 	property name="teamsize" ormtype="integer" default="3" ;
+	property name="registrationsize" ormtype="integer" default="3" ;
 	property name="registrationtype" ormtype="integer" default="1" hint="1 = invitational, 2 = open";
 	property name="details" ormtype="text";
 	property name="rules" ormtype="text";
@@ -43,7 +44,7 @@ component persistent="true" object="tournament" extends="base" table="tournament
 		if (arguments.team) {
 			team = ' and teamid is not null';
 		} else {
-			team = ' and teamid is null';
+			team = ' ';
 		}
 
 		var data =  queryexecute('select 1 from player where tournamentid = :tid #team# #appr#', {tid: this.getid()});
@@ -88,5 +89,6 @@ component persistent="true" object="tournament" extends="base" table="tournament
 	public any function PostUpdate(){
 
 	}
+	
 
 }

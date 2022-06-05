@@ -57,13 +57,15 @@
                     <input type="hidden" name="canregisterdate" id="canregisterdate"  value="#rc.canregisterdate#">
 
                     <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label for="teamname" class="form-label">Team Name</label>
-                            <input type="text" class="form-control" id="teamname" name="teamname" pattern=".{2,}" value="#rc.teamname#" <cfif ! rc.tournament.getindividual()>required</cfif>>
-                            <div class="invalid-feedback">
-                                Team Name must be at least 2 characters.
+                        <cfif rc.tournament.getregistrationsize() gt 1>
+                            <div class="col-md-6">
+                                <label for="teamname" class="form-label">Team Name</label>
+                                <input type="text" class="form-control" id="teamname" name="teamname" pattern=".{2,}" value="#rc.teamname#" <cfif ! rc.tournament.getindividual()>required</cfif>>
+                                <div class="invalid-feedback">
+                                    Team Name must be at least 2 characters.
+                                </div>
                             </div>
-                        </div>
+                        </cfif>
                         <div class="col-md-6">
                             <label for="playeremail" class="form-label">Your Email Address</label>
                             <input type="email" class="form-control" id="playeremail" name="playeremail" value="#rc.playeremail#" <cfif rc.tournament.getemailrequired()>required</cfif>>
@@ -74,11 +76,11 @@
                     </div>
                     <div class="row">
                         <cfset customfields = rc.tournament.hasCustomConfig()>
-                        <cfloop index="i" from="1" to="#rc.tournament.getteamsize()#">
+                        <cfloop index="i" from="1" to="#rc.tournament.getregistrationsize()#">
                             <div class="col">                       
-                                <displays:playerreg rc="#rc#" playernumber="#i#" teamsize="#rc.tournament.getteamsize()#" individual="#rc.tournament.getindividual()#"/>
+                                <displays:playerreg rc="#rc#" playernumber="#i#" teamsize="#rc.tournament.getregistrationsize()#" individual="#rc.tournament.getindividual()#"/>
                                 <cfif customfields>
-                                    <displays:playerregcustom rc="#rc#" playernumber="#i#" teamsize="#rc.tournament.getteamsize()#" individual="#rc.tournament.getindividual()#"/>
+                                    <displays:playerregcustom rc="#rc#" playernumber="#i#" teamsize="#rc.tournament.getregistrationsize()#" individual="#rc.tournament.getindividual()#"/>
                                 </cfif>
                             </div>
                         </cfloop>

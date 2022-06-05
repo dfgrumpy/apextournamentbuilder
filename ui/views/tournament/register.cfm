@@ -46,7 +46,7 @@
                     
                     <input type="hidden" name="processregistration" id="processregistration"  value="1">
                     <div class="row mb-3">
-                        <cfif rc.tournament.getteamsize() gt 1>
+                        <cfif rc.tournament.getregistrationsize() gt 1>
                             <div class="col-md-6">
                                 <label for="teamname" class="form-label">Team Name <cfif rc.tournament.getindividual()><small>(Not Required)</small></cfif></label>
                                 <input type="text" class="form-control" id="teamname" name="teamname" pattern=".{2,}" <cfif ! rc.tournament.getindividual()>required</cfif>>
@@ -65,11 +65,11 @@
                     </div>
                     <div class="row">
                         <cfset customfields = rc.tournament.hasCustomConfig()>
-                        <cfloop index="i" from="1" to="#rc.tournament.getteamsize()#">
+                        <cfloop index="i" from="1" to="#rc.tournament.getregistrationsize()#">
                             <div class="col">                       
-                                <displays:playerreg rc="#rc#" playernumber="#i#" teamsize="#rc.tournament.getteamsize()#" individual="#rc.tournament.getindividual()#"/>
+                                <displays:playerreg rc="#rc#" playernumber="#i#" teamsize="#rc.tournament.getregistrationsize()#" individual="#rc.tournament.getindividual()#"/>
                                 <cfif customfields>
-                                    <displays:playerregcustom rc="#rc#" playernumber="#i#" teamsize="#rc.tournament.getteamsize()#" individual="#rc.tournament.getindividual()#"/>
+                                    <displays:playerregcustom rc="#rc#" playernumber="#i#" teamsize="#rc.tournament.getregistrationsize()#" individual="#rc.tournament.getindividual()#"/>
                                 </cfif>
                             </div>
                         </cfloop>
