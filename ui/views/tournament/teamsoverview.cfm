@@ -56,7 +56,7 @@
                 <div class="col">
                     <div class="card rounded-3 shadow-sm text-white border-success">
                         <div class="card-body">
-                            <h1 class="card-title pricing-card-title">#rc.tournament.countPlayersInTournament()#</h1>
+                            <h1 class="card-title pricing-card-title">#rc.tournament.countPlayersInTournament('ALL', false)#</h1>
                             <ul class="list-unstyled mt-3 mb-4">
                             <li>Players Registered</li>
                             </ul>

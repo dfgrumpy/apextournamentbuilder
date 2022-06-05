@@ -179,7 +179,6 @@ component accessors="true" hint="for tournament items" extends="model.base.baseg
 
 		thisTourney.settype( entityLoadByPK('tournamenttype', tdata.tourneytype ));
     
-		
 		entitysave(thisTourney);
 		ormflush();
 
@@ -326,6 +325,11 @@ component accessors="true" hint="for tournament items" extends="model.base.baseg
 		}
 		// error checks passed. Save team and player.
 		if (nosaveteam.isempty()) {
+		
+			if (arguments.data.keyExists('teamname') && !arguments.data.teamname.len() && player.len() > 1) {
+				arguments.data.teamname = 'Generic Team #randrange(111,999)#';
+			}
+			
 			if (arguments.data.keyExists('teamname') && arguments.data.teamname.len()) {
 				// profanity filter for team name.
 				// if name has profanty it is replaced with a random team name

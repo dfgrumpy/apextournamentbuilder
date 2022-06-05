@@ -65,7 +65,7 @@
         <div class="row">
           <div class="col-3 ps-0" >
 
-            <cfif rc.tournament.countPlayersInTournament(1, false)>
+            <!--- <cfif rc.tournament.countPlayersInTournament('ALL', true)> --->
 
                 <ul class="nav nav-tabs nav-justified" id="myTab" role="tablist">
                     <li class="nav-item" role="presentation">
@@ -179,7 +179,7 @@
 
                     </div>
                 </div>
-            <cfelse>
+            <!--- <cfelse>
                 <div class="alert alert-light text-center" role="alert">
                     <p class="text-danger">There are no approved players.</p>                        
                     <div class="d-grid gap-2">
@@ -188,7 +188,7 @@
                         </a>
                     </div>
                 </div>
-            </cfif>
+            </cfif> --->
 
             <cfif rc.missingteams gt 0>
                 <div class="d-grid gap-2">
