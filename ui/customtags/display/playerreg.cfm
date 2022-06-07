@@ -58,7 +58,7 @@
     </div>
     <div class="card-body">
         <p>
-            <label for="playername" class="form-label">Player Name</label>
+            <label for="playername" class="form-label">Player Name <small class="text-muted">(In-game not personal)</small></label>
             <input type="text" class="form-control" id="playername_#num#" name="playername_#num#" value="#thisPlayer.playername#" #fieldreq#>
         </p>
         <p>

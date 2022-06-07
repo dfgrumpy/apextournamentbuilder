@@ -1,5 +1,3 @@
-<cfset rc.title = "Default View" />	<!--- set a variable to be used in a layout --->
-
 <div class="container py-3">
   <main>
     <section class="py-0 text-center container">
