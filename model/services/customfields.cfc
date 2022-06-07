@@ -124,5 +124,67 @@ component {
 
 	}
 
+
+	public any function addCustomToExport( required any exportData, required any tournament) {
+
+		var thisData = arguments.exportData;
+		var thisTourney = arguments.tournament;
+		var customIds = '';
+		var customNames = '';
+		var playerCustom = [];
+		var idx = 1;
+		var truw = 1;
+		var pc = {};
+
+		var customs = thisTourney.getcustomconfig();
+
+		// no custom data.. return
+		if (! customs.len()) { 
+			return {'customfields':'', 'data': thisdata};
+		}
+
+		for (c in customs) {
+			customIds = listappend(customIds, c.getid());
+			thisName = reReplaceNoCase(c.getlabel(), '[^a-z0-9_]', '_', "ALL");
+			customNames = listappend(customNames, thisName);
+			thisData.AddColumn("#thisName#", "VarChar", [])
+		}
+
+		// get all custom values
+		customVals = queryExecute('select cd.value, cd.parentid, cd.playerid from customdata cd where playerid in (#valuelist(thisData.id)#) order by cd.playerid, cd.parentid')
+
+		for (rows in thisData) {			
+			playerCustom[idx] = {'playerid_': rows.id};
+			for (cid in listtoArray(customIds, ',')) {
+				cdataQry = queryExecute( "select * from customVals where parentid = #cid# and playerid = #rows.id#", {}, { dbtype="query" } );
+				structInsert(playerCustom[idx], "#cid#", "#cdataQry.value#");
+			}
+			idx++;
+		}
+
+		// convert player custom data to structure for searching
+		pc.playerCustom = playerCustom;
+
+		trow = 1;
+		for (p in thisData) {	
+
+			item = structFindValue(pc, thisData.id, 'one');
+			if (isArray(item)) {
+				tpcdata = item[1].owner;
+				for (i = 1; i <= customIds.listlen(); i++) {
+
+					querySetCell(thisData, "#customNames.listGetAt(i)#", tpcdata['#customIds.listGetAt(i)#'], trow);
+
+				}
+
+			}
+
+			trow++;
+		}
+
+		return {'customfields':customNames, 'data': thisData};
+	}
+
+
 }
 
