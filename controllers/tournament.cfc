@@ -341,7 +341,7 @@ component accessors="true" extends="base" {
 		var exportQuery = entityToQuery(rc.tournament.getplayer());
 
 
-		var cols = 'gamername,originname,email,platform,playerrank,twitch,twitter,discord,kills,level,streaming,approved,alternate,created,updated';
+		var cols = 'gamername,originname,email,platform,playerrank,statsrank,twitch,twitter,discord,kills,level,streaming,approved,alternate,created,updated';
 
 		if (rc.tournament.hascustomconfig()){
 

@@ -183,7 +183,7 @@
                     </button>
 
                     <cfif rc.uihelper.canReloadTrackerStats(item)>
-                        <button type="button"  data-playerid="#item.getid()#" class="btn btn-sm btn-warning playerTrackerBtn"  data-bs-toggle="tooltip" data-bs-placement="top" title="Refresh Tracker Data">
+                        <button type="button"  data-playerid="#item.getid()#" class="btn btn-sm btn-warning playerTrackerBtn"  data-bs-toggle="tooltip" data-bs-placement="top" title="Refresh Stats Data">
                             <i class="bi bi-arrow-repeat"></i>
                         </button>
                     </cfif>

@@ -49,7 +49,10 @@
                             #thisplayer.getgamername()#
                         </div>
                         <hr>
+                                
                         <dl class="row">
+                            <dt class="text-warning">Stats Rank</dt>
+                            <dd >#thisplayer.getstatsrank().len() ? thisplayer.getstatsrank() : 'Unknown'#</dd>
                             <dt class="text-warning">Platform</dt>
                             <dd >#thisplayer.getPlatform().len() ? thisplayer.getPlatform() : 'Unknown'#</dd>
                             <dt class="text-warning">Level</dt>
