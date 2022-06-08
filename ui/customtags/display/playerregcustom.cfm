@@ -19,7 +19,7 @@
 <cfset teamsize = attributes.teamsize>
 
 
-<cfif  attributes.rc.keyexists('playerreg') && isArray(attributes.rc.playerreg)>
+<cfif  attributes.rc.keyexists('playerreg') && isArray(attributes.rc.playerreg) && arrayIsDefined(attributes.rc.playerreg, num)>
     <cfset thisPlayer = attributes.rc.playerreg[num]>
     <cfloop array="#thisTourney.getCustomConfig()#" item="item">
         <cftry>
