@@ -317,9 +317,7 @@ component accessors="true" hint="for tournament items" extends="model.base.baseg
 				nosaveteam = {'error': 'failure', 'detail': 'Player / Origin name already exists in tournament'};
 				player[i].saveerror = nosaveteam;
 			} else {
-				if (player[i].originname.len()){
-					player[i].tracker = true;
-				}
+				player[i].tracker = true;
 			}
 						
 		}
