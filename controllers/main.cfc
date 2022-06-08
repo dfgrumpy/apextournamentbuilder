@@ -9,6 +9,7 @@ component accessors="true" {
 	property configService;
 	property emailService;
 	property errorHandlerService;
+	property apexaipService;
 	
 	public any function init( fw ) {
 		variables.fw = fw;
@@ -27,6 +28,17 @@ component accessors="true" {
 
 	
 
+	public void function apitest( rc ) {
+
+		
+		var player = entityLoadByPK('player', rc.playerid);
+		var stats = getapexaipService().getPlayerProfilev2(player.getoriginname(), player.getalapiPlatform());
+
+		writeDump(stats.deserializeJson());
+		
+		writeDump(getapexaipService().getTrackedDataFromAPIResultv2(stats));
+		abort;
+	}
 
 	public void function default( rc ) {
 		

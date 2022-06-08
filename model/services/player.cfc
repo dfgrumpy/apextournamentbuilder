@@ -153,10 +153,12 @@ component accessors="true" hint="for player items" extends="model.base.baseget" 
 		var playerName = thisplayer.getplatform() eq 'PC' ? thisplayer.getoriginname() : thisplayer.getgamername();
 
 		try {
-			var profile = getapexaipService().getPlayerProfile(playerName, thisplayer.getTrackerPlatform().lcase());
-			var stats = getapexaipService().getTrackedDataFromAPIResult(profile);
+			var profile = getapexaipService().getPlayerProfilev2(playerName, thisplayer.getalapiPlatform());
+			var stats = getapexaipService().getTrackedDataFromAPIResultv2(profile);
 
-			thisplayer.setPlayerRank(REReplaceNoCase(stats.rank,'([^0-9]+).*','\1','ALL'));
+			
+
+			thisplayer.setstatsrank(stats.rank & ' ' & stats.ranklevel);
 			thisplayer.setlevel(stats.level);
 			thisplayer.setkills(stats.kills);
 			thisplayer.settracker(1);

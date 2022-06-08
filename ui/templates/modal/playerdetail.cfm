@@ -17,6 +17,10 @@
                       #rc.player.getPlayerRank()#</td>
                   </tr>
                   <tr>
+                    <td>Stats Rank</td>
+                    <td>#rc.player.getstatsrank()#</td>
+                  </tr>
+                  <tr>
                     <td>Platform</td>
                     <td>#rc.player.getPlatform()#</td>
                   </tr>
@@ -38,7 +42,7 @@
                   </tr>
                   <tr>
                     <td>Kills</td>
-                    <td>#rc.player.getKills()#</td>
+                    <td>#NumberFormat(rc.player.getKills())#</td>
                   </tr>
                   <tr>
                     <td>Originname</td>

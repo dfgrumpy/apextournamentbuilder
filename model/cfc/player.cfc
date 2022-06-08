@@ -13,6 +13,7 @@ component persistent="true" object="player" extends="base" table="player" {
 	property name="approved" ormtype="integer" default="0";
 
 	property name="playerrank" ormtype="string";
+	property name="statsrank" ormtype="string" default="";
 	property name="level" ormtype="integer";
 	property name="kills" ormtype="float";
 	property name="invitekey" ormtype="string";
@@ -34,5 +35,16 @@ component persistent="true" object="player" extends="base" table="player" {
 	}
 	
 
+	public any function getalapiPlatform(){
+
+		if (this.getplatform() eq "pc"){ 
+			return 'PC';
+		} else if (this.getplatform() eq "PSN"){ 
+			return 'PS4';
+		} else if (this.getplatform() eq "XBL"){ 
+			return 'XB1';
+		}
+
+	}
 
 }
