@@ -3,6 +3,7 @@
 
 
 <cfimport prefix="displays" taglib="/ui/customtags/display">
+<cfset nextid = 0>
 
 <div class="container py-3">
     <main>
