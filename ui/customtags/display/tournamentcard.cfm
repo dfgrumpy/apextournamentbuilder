@@ -161,7 +161,7 @@
                                 </div>
                             </div>   
                         <cfelse>
-                            <cfif thistourney.getid() eq 27>
+                            <cfif thistourney.getid() eq 27 or thistourney.getid() eq 28>
                                 <img src='/assets/images/military_png2.jpg' width="250">    
                             </cfif>
                         </cfif>
