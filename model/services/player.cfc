@@ -41,7 +41,7 @@ component accessors="true" hint="for player items" extends="model.base.baseget" 
 		if (arguments.Originname.len()) {
 			orig = 'or Originname = :oname';
 		}
-		return queryexecute('select 1 from player where gamername = :player #orig# and tournamentid = :tid', {player: arguments.playername, oname: arguments.Originname, tid: arguments.tournamentid});
+		return queryexecute('select 1 from player where (gamername = :player #orig#) and tournamentid = :tid', {player: arguments.playername, oname: arguments.Originname, tid: arguments.tournamentid});
 	}
 
 	public any function deleteplayer(required numeric playerid){
